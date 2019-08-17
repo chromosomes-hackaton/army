@@ -1,0 +1,22 @@
+
+.registation{ 
+    &__bottom {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        margin-top: 7%;
+    }
+    &__button {
+        width: 55%;
+    }
+    &__error {
+        display: flex;
+        justify-content: center;
+
+        margin-top: 5%;
+
+        color: red;
+    }
+}
