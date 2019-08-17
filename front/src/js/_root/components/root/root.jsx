@@ -4,6 +4,7 @@ import { Route, Switch, Router, Redirect } from "react-router-dom";
 
 import createStore from "_root/store";
 import history from "_root/tools/history-tool";
+import { ROUTES } from "_root/constants/routes";
 import bg from "../../../../img/bg.jpg";
 
 import "./root.scss";
