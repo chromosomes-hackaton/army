@@ -1,0 +1,36 @@
+@import 'veriables';
+
+.button {
+    &__container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        box-sizing: border-box;
+
+        cursor: pointer;
+        transition: 250ms;
+
+        background: $blue-page-auth-background;
+
+        font-size: $font-size-base;
+        &--disabled {
+            cursor: default;
+
+            opacity: 0.6;
+            border: none;
+        }
+    }
+    &__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        box-sizing: border-box;
+        padding: 10px 10px;
+
+        text-align: center;
+
+        color: $white-font-color;
+    }
+}
