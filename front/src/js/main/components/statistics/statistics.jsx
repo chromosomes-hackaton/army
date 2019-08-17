@@ -120,10 +120,10 @@ export default class Statistics extends React.PureComponent {
                     height={300}
                     data={parseToPercentage(diseases).sort((a, b) => {
                         if (a.value > b.value) {
-                            return 1;
+                            return -1;
                         }
                         if (a.value < b.value) {
-                            return -1;
+                            return 1;
                         }
 
                         return 0;
