@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Redirect, Route, Switch } from "react-router-dom";
 
+import "./index.scss";
+
 export default class Auth extends React.PureComponent {
     static propTypes = {};
 
