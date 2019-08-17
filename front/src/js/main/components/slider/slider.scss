@@ -1,0 +1,36 @@
+
+.slide{
+    background: none !important;
+}
+
+.control-arrow{
+    background: rgb(195, 195, 195) !important;
+}
+
+
+.question{
+    &__container {
+        display: flex;
+        flex-direction: column;
+
+        padding: 10%;
+
+        text-align: start;
+
+    }
+     &__answer {
+        display: flex;
+        align-items: center;
+
+        margin-top: 3%;
+
+    }
+}
+
+.questions{
+    &__container {
+       width: 50%;
+
+      background: white;
+    }
+}

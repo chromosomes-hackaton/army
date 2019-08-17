@@ -17,7 +17,7 @@ export default class Root extends React.PureComponent {
         return (
             <Provider store={store}>
                 <>
-                    <div className="app-bg" style={{ background: `url(${bg})` }}></div>
+                    <div className="app-bg" style={{ background: `url(${bg})` }}/>
                     <div className="app-content">
                         <Router history={history}>
                             <Switch>

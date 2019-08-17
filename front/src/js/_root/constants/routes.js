@@ -9,6 +9,7 @@ import LogIn from "auth/components/log-in/log-in";
 import Parameters from "auth/components/parameters/parameters";
 import Statistics from "main/components/statistics/statistics";
 import Registration from "auth/components/registration/registration";
+import Questions from "main/components/questions/questions";
 
 export const ROUTES = [
     {
@@ -40,6 +41,11 @@ export const ROUTES = [
     {
         path: "/statistics",
         component: Statistics,
+        exact: true
+    },
+    {
+        path: "/questions",
+        component: Questions,
         exact: true
     }
 ];

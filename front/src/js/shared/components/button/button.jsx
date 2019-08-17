@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import './button.scss';
 
 const Button = ({ type, text, onClick, disabled }) => {
-    console.log(disabled);
     return (
         <div className="button">
             <button type={type} disabled={disabled} className="button__inner" onClick={onClick}>
