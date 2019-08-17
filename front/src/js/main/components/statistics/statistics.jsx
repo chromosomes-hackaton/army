@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, CustomizedLabel, Legend, Tooltip } from 'recharts';
+import { XYPlot, YAxis, Hint, XAxis, HorizontalBarSeries } from 'react-vis';
+
+import CustomChart from 'main/components/custom-chart/custom-chart';
+// import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, CustomizedLabel, Legend, Tooltip } from 'recharts';
+
+import './statistics.scss';
 
 const diseases = [
     {
@@ -86,16 +91,42 @@ const diseases = [
 ];
 
 const parseToPercentage = diseases => {
+    diseases.sort((a, b) => {
+        if (a.value > b.value) {
+            return -1;
+        }
+        if (a.value < b.value) {
+            return 1;
+        }
+
+        return 0;
+    });
+
     let total = 0;
+    const labels = [];
 
     diseases.forEach(item => {
         total += item.value;
     });
 
-    return diseases.map(item => ({
-        ...item,
-        value: (item.value * 100) / total
-    }));
+    const parsedValues = diseases.map((item, i) => {
+        labels.push(item.name);
+        const value = (item.value * 100) / total;
+        const x = Math.round(value * 100) / 100;
+        const px = (400 * x) / 100;
+
+        return {
+            ...item,
+            x: x,
+            y: i,
+            px
+        };
+    });
+
+    return {
+        parsedValues,
+        labels
+    };
 };
 
 export default class Statistics extends React.PureComponent {
@@ -105,17 +136,66 @@ export default class Statistics extends React.PureComponent {
 
     state = {
         userTitles: [],
-        hoveredUserNode: null
+        hintNode: null
     };
 
     render() {
+        const { hintNode } = this.state;
+        const { parsedValues, labels } = parseToPercentage(diseases);
+
         return (
-            <div classtitle="statistics__container">
-                <p classtitle="statistics__title">Статистика</p>
+            <div className="statistics__container">
+                <p className="statistics__description">Статистика болезней по беларуси</p>
 
-                <p classtitle="statistics__description">Статистика болезней по беларуси</p>
+                <div className="statistics__chart-container">
+                    <CustomChart data={parsedValues} />
+                    {/* <XYPlot
+                        margin={{ left: 500 }}
+                        height={400}
+                        width={1000}
+                        yType="ordinal"
+                        colorType="category"
+                        onMouseLeave={() => this.setState({ hintNode: null })}
+                        stackBy="x"
+                    > */}
+                    {/* <HorizontalBarSeries
+                        cluster="stack 1"
+                        data={parsedValues}
+                        barWidth={0.5}
+                        onValueMouseOver={d => this.setState({ hintNode: d })}
+                        onValueMouseOut={() => this.setState({ hintNode: null })}
+                    />
 
-                <BarChart
+                        <YAxis
+                            tickFormat={v => labels[v]}
+                            style={{
+                                text: { fontSize: '13px', color: '#fff' }
+                            }}
+                        />
+                        <XAxis
+                            tickFormat={v => v}
+                            style={{
+                                line: { stroke: '#ddd' },
+                                ticks: { stroke: '#ddd' },
+                                text: {
+                                    stroke: 'none',
+                                    fill: '#999',
+                                    fontWeight: 300,
+                                    fontSize: '11px'
+                                }
+                            }}
+                        />
+                        {hintNode && (
+                            <Hint value={hintNode}>
+                                <div className="statistics__hint-container">
+                                    <p className="statistics__hint">Persantage: {hintNode.x}%</p>
+                                </div>
+                            </Hint>
+                        )}
+                    </XYPlot> */}
+                </div>
+
+                {/* <BarChart
                     width={500}
                     height={300}
                     data={parseToPercentage(diseases).sort((a, b) => {
@@ -130,11 +210,10 @@ export default class Statistics extends React.PureComponent {
                     })}
                 >
                     <XAxis dataKey="name" />
+                    <Bar dataKey="value" fill="#8884d8" />
                     <YAxis />
                     <Tooltip />
-                    <Legend />
-                    <Bar dataKey="value" fill="#8884d8" />
-                </BarChart>
+                </BarChart> */}
             </div>
         );
     }
