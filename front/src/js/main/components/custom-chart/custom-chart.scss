@@ -1,0 +1,27 @@
+.custom-chart {
+    &__container {
+    }
+
+    &__option-label {
+        display: flex;
+        justify-content: flex-end;
+
+        width: 600px;
+        margin-right: 10px;
+
+        p {
+            text-align: right;
+        }
+    }
+    &__option-value {
+        height: 15px;
+
+        background: #9f81be;
+    }
+    &__option {
+        display: flex;
+        align-items: center;
+
+        margin-bottom: 3px;
+    }
+}
