@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import { Button, Input, Spinner } from 'shared/components';
 import Slider from '../slider/slider';
 import { QUESTIONS } from '../../constants/questions';
+import { getQuestions } from '../../actions/questions/question-action';
 
-export default class Questions extends React.Component {
+class Questions extends React.Component {
     constructor() {
         super();
         this.answers = [];
@@ -36,6 +39,8 @@ export default class Questions extends React.Component {
     render() {
         const { isValid } = this.state;
 
+        console.log(this.props.questions);
+
         return (
             <div className="questions__container">
                 <Slider onChange={this.onChange} data={QUESTIONS} />
@@ -44,3 +49,17 @@ export default class Questions extends React.Component {
         );
     }
 }
+
+const mapStateToProps = ({ questions }) => ({
+    questions: questions.get('questions'),
+    isPending: questions.get('isPending')
+});
+
+const mapDispatchToProps = dispatch => ({
+    getQuestions: bindActionCreators(getQuestions, dispatch)
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Questions);

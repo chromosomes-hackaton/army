@@ -21,7 +21,7 @@ export const ROUTES = [
         routes: [
             {
                 path: "/auth/log-in",
-                component: userIsNotAuthenticated(Diagnosis),
+                component: userIsNotAuthenticated(LogIn),
                 exact: true
             },
             {
@@ -54,6 +54,11 @@ export const ROUTES = [
     {
         path: "/questions",
         component: Questions,
+        exact: true
+    },
+    {
+        path: "/diag",
+        component: Diagnosis,
         exact: true
     }
 ];
