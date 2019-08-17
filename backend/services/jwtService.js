@@ -15,7 +15,7 @@ module.exports.verifyRequest = (request) => {
     if (authType === 'Bearer' && token) {
       try {
         return module.exports.verify(token);
-      } catch {
+      } catch(e){
         throwAuthErr('Auth token is invalid');
       }
     } else {
