@@ -12,6 +12,8 @@ import Registration from "auth/components/registration/registration";
 import Profile from "main/components/profile/profile";
 import Questions from "main/components/questions/questions";
 
+import Diagnosis from "main/components/diagnosis/diagnosis";
+
 export const ROUTES = [
     {
         path: "/auth",
@@ -19,7 +21,7 @@ export const ROUTES = [
         routes: [
             {
                 path: "/auth/log-in",
-                component: userIsNotAuthenticated(LogIn),
+                component: userIsNotAuthenticated(Diagnosis),
                 exact: true
             },
             {
