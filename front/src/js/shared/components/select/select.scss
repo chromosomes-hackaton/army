@@ -1,0 +1,82 @@
+@import 'veriables';
+
+.select {
+    &__content {
+        position: relative;
+
+        &--disabled {
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    }
+    &__select {
+        font-size: $font-size-page-title;
+    }
+
+    &__options-container {
+        position: absolute;
+        z-index: 10;
+
+        box-sizing: border-box;
+        width: 100%;
+
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    &__current-value {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 120px;
+        padding: 3px 5px;
+
+        text-align: left;
+
+        border: 1px solid #e2e4e6;
+
+        font-size: $font-size-base;
+
+        &::before {
+            margin-right: 5px;
+
+            content: '▾';
+        }
+        &--default {
+            color: #d5d5d5;
+        }
+    }
+
+    &__option {
+        overflow: hidden;
+
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 120px;
+        padding: 5px;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        border: 1px solid #e9ebed;
+        border-top: 0;
+        border-bottom-width: 0;
+        background: #fff;
+
+        font-size: $font-size-base;
+
+        &:last-of-type {
+            border-bottom-width: 1px;
+        }
+    }
+    &__option:hover {
+        background-color: #efefef;
+    }
+    &__option-container {
+        overflow: auto;
+
+        max-height: 150px;
+    }
+}

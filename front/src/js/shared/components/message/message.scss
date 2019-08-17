@@ -1,0 +1,19 @@
+@import 'veriables';
+
+.message {
+    &__container {
+        display: flex;
+
+        padding: 5px;
+    }
+    &__content {
+        min-height: 20px;
+
+        color: $green;
+
+        font-size: $font-size-sm-body;
+        &--error {
+            color: $red;
+        }
+    }
+}

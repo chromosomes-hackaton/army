@@ -1,0 +1,14 @@
+{
+    "csscomb.formatOnSave": true,
+    "cSpell.enabled": false,
+    "prettier.singleQuote": true,
+    "prettier.trailingComma": "none",
+    "prettier.bracketSpacing": true,
+    "prettier.jsxBracketSameLine": false,
+    "prettier.tabWidth": 4,
+    "prettier.semi": true,
+    "prettier.printWidth": 120,
+    "vim.handleKeys": {
+        "<C-w>": false
+    }
+}
