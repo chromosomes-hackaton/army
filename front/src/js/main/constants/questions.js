@@ -51,4 +51,8 @@ export const QUESTIONS = [
         question: "10.Бывают ли у вас проблемы с мочеиспусканием (трудно помочиться, частые позывы ночью)?",
         specialistId: 10
     }
-]
+];
+
+export const GET_QUESTIONS_SUCCESS = "GET_QUESTIONS_SUCCESS";
+export const GET_QUESTIONS_REQUEST = "GET_QUESTIONS_REQUEST";
+export const GET_QUESTIONS_ERROR = "GET_QUESTIONS_ERROR";

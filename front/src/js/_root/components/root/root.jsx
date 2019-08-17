@@ -5,8 +5,7 @@ import { Route, Switch, Router, Redirect } from "react-router-dom";
 import createStore from "_root/store";
 import history from "_root/tools/history-tool";
 import { ROUTES } from "_root/constants/routes";
-import bg from '../../../../img/bg.jpg';
-
+import bg from "../../../../img/bg.jpg";
 
 import "./root.scss";
 
@@ -17,7 +16,10 @@ export default class Root extends React.PureComponent {
         return (
             <Provider store={store}>
                 <>
-                    <div className="app-bg" style={{ background: `url(${bg})` }}/>
+                    <div
+                        className="app-bg"
+                        style={{ background: `url(${bg})` }}
+                    />
                     <div className="app-content">
                         <Router history={history}>
                             <Switch>
