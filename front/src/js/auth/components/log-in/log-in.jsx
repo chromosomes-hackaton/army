@@ -12,7 +12,7 @@ export default class LogIn extends React.PureComponent {
     render() {
         return (
             <div className="log-in__container">
-                <Button content="dwqdwqwdq" />
+                <Button>egww</Button>
             </div>
         );
     }

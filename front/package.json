@@ -80,6 +80,7 @@
         "react-select": "^3.0.4",
         "react-vis": "^1.11.7",
         "react-widgets": "^4.4.11",
+        "recharts": "^1.7.1",
         "redux": "^4.0.1",
         "redux-actions": "^2.6.4",
         "redux-auth-wrapper": "^2.0.3",

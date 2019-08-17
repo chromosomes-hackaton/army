@@ -1,57 +1,37 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import ClassName from 'classnames';
-
 import './button.scss';
 
-export default class Button extends React.PureComponent {
-    static propTypes = {
-        className: PropTypes.string,
-        classNameContainer: PropTypes.string,
-        content: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
-            .isRequired,
-        buttonRef: PropTypes.func,
-        isDisabled: PropTypes.bool,
-        handler: PropTypes.func
-    };
+const Button = ({
+  type,
+  text,
+  onClick,
+  disabled,
+}) => {
+  return (
+    <div styleName="button">
+      <button
+        type={type}
+        disabled={disabled}
+        className="button__inner"
+        onClick={onClick}
+      >
+        {text}
+      </button>
+    </div>
+  );
+};
 
-    static defaultProps = {
-        buttonRef: () => {},
-        className: '',
-        classNameContainer: '',
-        isDisabled: false,
-        handler: () => {}
-    };
+Button.propTypes = {
+  text: PropTypes.string,
+  type: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+};
 
-    handler = () => {
-        const { isDisabled, handler } = this.props;
+Button.defaultProps = {
+  text: '',
+  type: 'button',
+  disabled: false,
+};
 
-        if (!isDisabled) {
-            handler();
-        }
-    };
-
-    render() {
-        const {
-            className,
-            classNameContainer,
-            content,
-            buttonRef,
-            isDisabled
-        } = this.props;
-
-        return (
-            <div
-                className={ClassName('button__container', classNameContainer, {
-                    'button__container--disabled': isDisabled
-                })}
-                ref={buttonRef}
-                onClick={this.handler}
-            >
-                <div className={ClassName('button__content', className)}>
-                    {content}
-                </div>
-            </div>
-        );
-    }
-}
+export default Button;
