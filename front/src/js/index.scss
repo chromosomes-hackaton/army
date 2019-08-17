@@ -1,1 +1,39 @@
+@import "veriables";
 
+body,
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    font-size: 100%;
+}
+
+path {
+    color: inherit;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+
+    text-decoration: none;
+
+    color: $default-color-font;
+    outline: none;
+
+    font-family: "Roboto";
+    font-weight: 300;
+}
+
+input:disabled {
+    background: inherit;
+}
+
+.spinner-margin {
+    margin-top: 100px;
+}
+
+.margin-reset {
+    margin: 0;
+}
