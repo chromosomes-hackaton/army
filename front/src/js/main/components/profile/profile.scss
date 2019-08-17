@@ -1,0 +1,58 @@
+.profile {
+    &__container {
+        width: 1000px;
+        min-height: 300px;
+        padding: 10px;
+
+        background: #eaeaea;
+    }
+    &__parameters {
+        display: flex;
+    }
+    &__avatar {
+        margin-left: 10px;
+    }
+    &__description {
+        display: grid;
+
+        margin-top: 20px;
+
+        grid-gap: 1em;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    &__input-info {
+        width: 100px;
+    }
+    &__indicators-container {
+        display: flex;
+        flex-direction: column;
+
+        max-width: 280px;
+
+        &--main {
+            display: grid;
+
+            width: 100%;
+
+            grid-gap: 8px;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    &__indicators-info-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        height: 32px;
+        margin-bottom: 5px;
+
+        border-bottom: 1px solid #cccccc;
+
+        &--active {
+            border-bottom: 1px solid transparent;
+        }
+    }
+    &__indicators-info {
+        margin-bottom: 0;
+    }
+}
