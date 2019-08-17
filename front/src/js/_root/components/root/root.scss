@@ -1,7 +1,9 @@
 .app-content {
     display: flex;
+    align-items: center;
     flex: 1 100%;
     flex-direction: column;
+    justify-content: center;
 
     min-height: 100vh;
 }

@@ -85,6 +85,19 @@ const diseases = [
     }
 ];
 
+const parseToPercentage = diseases => {
+    let total = 0;
+
+    diseases.forEach(item => {
+        total += item.value;
+    });
+
+    return diseases.map(item => ({
+        ...item,
+        value: (item.value * 100) / total
+    }));
+};
+
 export default class Statistics extends React.PureComponent {
     static propTypes = {};
 
@@ -105,12 +118,12 @@ export default class Statistics extends React.PureComponent {
                 <BarChart
                     width={500}
                     height={300}
-                    data={diseases.sort((a, b) => {
+                    data={parseToPercentage(diseases).sort((a, b) => {
                         if (a.value > b.value) {
-                            return 1;
+                            return -1;
                         }
                         if (a.value < b.value) {
-                            return -1;
+                            return 1;
                         }
 
                         return 0;
