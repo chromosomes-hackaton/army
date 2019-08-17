@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "0.3.0",
+  "description": "Backend",
+  "engines": {
+    "node": "10.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "chalk": "^2.4.2",
+    "cors": "^2.8.5",
+    "express": "^4.15.2",
+    "mongodb": "^3.2.7"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "license": "MIT"
+}
