@@ -6,6 +6,7 @@ import './input.scss';
 
 export default class Input extends React.PureComponent {
     static propTypes = {
+        name: PropTypes.string,
         className: PropTypes.string,
         classNameContainer: PropTypes.string,
         onBlur: PropTypes.func,
@@ -26,6 +27,7 @@ export default class Input extends React.PureComponent {
         placeholder: '',
         type: 'text',
         value: '',
+        name: '',
         onChange: () => {},
         onKeyPress: () => {}
     };
@@ -50,16 +52,18 @@ export default class Input extends React.PureComponent {
             onClick,
             isDisabled,
             autoComplete,
-            label
+            label, 
+            name
         } = this.props;
 
         return (
             <div className={ClassNames('input__container', classNameContainer)}>
-                {(label) && <h3>{label}</h3>}
+                {(label) && <p className="label">{label}</p>}
                 <input
                     disabled={isDisabled}
                     tabIndex={tabIndex || 1}
                     id={id}
+                    name={name}
                     value={value}
                     type={type}
                     className={ClassNames('input__field', className)}

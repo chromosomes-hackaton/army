@@ -6,33 +6,26 @@ import { Button, Input, Spinner } from 'shared/components';
 import './Log-in.scss';
 
 export default class LogIn extends React.PureComponent {
-    static propTypes = {};
-
-    static defaultProps = {};
-
-    constructor() {
-        super();
-        this.state = {
-            login: '',
-            password: '',
-            isValidForm: true,
-            isPending: false
-        };
+    state = {
+        login: '',
+        password: '',
+        isValidForm: true,
+        isPending: false
     }
 
     onChange = ({ target }, id) => {
         this.setState({ [id]: target.value });
-    };
+    }
 
     noReload = event => {
         event.preventDefault();
-    };
+    }
 
     changeValidForm = isValidForm => {
         this.setState({
             isValidForm
         });
-    };
+    }
 
     validateForm = () => {
         const { login, password } = this.state;
@@ -41,21 +34,26 @@ export default class LogIn extends React.PureComponent {
             return true;
         }
         return false;
-    };
+    }
 
     onClick = () => {
         this.setState({
             isPending: true
         });
-    };
+    }
 
     render() {
         const { login, password, isValidForm, isPending } = this.state;
 
         return (
             <div className="log-in__container">
+                {/* <div className="auth-bar">
+                    <span className="auth-bar__item auth-bar__item--selected">Вход в систему</span>
+                    <span className="auth-bar__divider">|</span>
+                    <span className="auth-bar__item">Регистрация </span>
+                </div> */}
                 <form onSubmit={this.noReload} className="log-in__form">
-                    <h1>Вход в систему</h1>
+                    <p className="title">Вход в систему</p>
                     <Input
                         value={login}
                         label="Введите логин:"

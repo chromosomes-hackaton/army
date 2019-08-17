@@ -12,6 +12,7 @@ export default class Auth extends React.PureComponent {
     render() {
         const { routes } = this.props;
 
+        console.log(routes);
         return (
             <div className="auth__container">
                 {routes &&

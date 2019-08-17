@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { NavLink } from 'react-router-dom';
 import { Button, Input, Spinner } from 'shared/components';
 
 import './registration.scss';
@@ -22,6 +23,7 @@ export default class Registration extends React.Component {
     }
 
     onChange = ({ target }, id) => {
+        console.dir(target);
         this.setState({ [id]: target.value });
     };
 
@@ -54,9 +56,10 @@ export default class Registration extends React.Component {
             <div className="registation__container">
                 <form onSubmit={this.noReload} className="registation__form">
                     <div className="registation__title">
-                        <h1>Регистрация в систему</h1>
+                        <p className="title">Вход в систему</p>
                     </div>
                     <Input
+                        name="login"
                         value={login}
                         required
                         onChange={e => this.onChange(e, 'login')}
@@ -81,18 +84,25 @@ export default class Registration extends React.Component {
                         onChange={e => this.onChange(e, 'repeatPassword')}
                         classNameContainer="registation__input"
                     />
-                    {!isPending ? (
-                        <div className="registation__bottom">
-                            <Button
-                                disabled={!this.validateForm()}
-                                text="Зарегистрироваться"
-                                classNameContainer="registation__button"
-                                onClick={this.onClick}
-                            />
-                        </div>
-                    ) : (
-                        <Spinner />
-                    )}
+                    {
+                        !isPending
+                            ? (
+                                <div className="registration__bottom">
+                                    <NavLink to="/auth/log-in">Авторизироваться</NavLink>
+                                    <div className="registration__button">
+                                        <Button
+                                            disabled={!this.validateForm()}
+                                            text="Зарегистрироваться"
+                                            onClick={this.onClick}
+                                        
+                                        >
+                                            Зарегистрироваться
+                                        </Button>
+                                    </div>
+                                </div>
+                            )
+                            : <Spinner />
+                    }
                     {errorMessage && <div className="registation__error">{errorMessage}</div>}
                 </form>
             </div>
