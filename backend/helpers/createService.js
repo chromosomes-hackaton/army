@@ -18,7 +18,9 @@ module.exports = (collectionName, db, options = { additionalIdFields: [] }) => {
 
   try {
     const collection = database.collection(collectionName);
-    const service = { ...collection };
+
+    const service = Object.create(collection.__proto__, { s: { value: {...collection.s} } });
+
   
     service.find = async (query, projection) => {
       const result = await collection.find(wrap(query), projection).toArray();
