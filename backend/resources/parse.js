@@ -71,5 +71,4 @@ const getSpecialistId = (articleIndex, specialists) => {
     });
     await diseaseService.deleteMany();
     await diseaseService.insertMany(diseases);
-    await browser.close();
 })();
