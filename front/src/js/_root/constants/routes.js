@@ -60,5 +60,10 @@ export const ROUTES = [
         path: "/questions",
         component: Questions,
         exact: true
+    },
+    {
+        path: "/diag",
+        component: Diagnosis,
+        exact: true
     }
 ];
