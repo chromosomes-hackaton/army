@@ -1,0 +1,51 @@
+.log-in, .registation{
+    &__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        width: 90%;
+        height: 90%;
+    }
+    &__container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        width: 30%;
+       
+    }
+    &__input {
+     margin-top: 5%;
+    }
+    &__error {
+        display: flex;
+        justify-content: center;
+
+        margin-top: 5%;
+
+        color: red;
+    }
+}
+
+.log-in{ 
+    &__bottom {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+
+        margin-top: 7%;
+    }
+    &__button {
+        width: 35%;
+    }
+    &__error {
+        display: flex;
+        justify-content: center;
+
+        margin-top: 5%;
+
+        color: red;
+    }
+}

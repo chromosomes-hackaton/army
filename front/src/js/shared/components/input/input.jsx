@@ -9,6 +9,7 @@ export default class Input extends React.PureComponent {
         className: PropTypes.string,
         classNameContainer: PropTypes.string,
         onBlur: PropTypes.func,
+        label: PropTypes.string,
         placeholder: PropTypes.string,
         type: PropTypes.string,
         onKeyPress: PropTypes.func,
@@ -19,6 +20,7 @@ export default class Input extends React.PureComponent {
 
     static defaultProps = {
         isAutoFocus: false,
+        label: '',
         classNameContainer: '',
         className: '',
         placeholder: '',
@@ -47,11 +49,13 @@ export default class Input extends React.PureComponent {
             tabIndex,
             onClick,
             isDisabled,
-            autoComplete
+            autoComplete,
+            label
         } = this.props;
 
         return (
             <div className={ClassNames('input__container', classNameContainer)}>
+                {(label) && <h3>{label}</h3>}
                 <input
                     disabled={isDisabled}
                     tabIndex={tabIndex || 1}

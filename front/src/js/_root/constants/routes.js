@@ -8,6 +8,7 @@ import Auth from "auth/components";
 import LogIn from "auth/components/log-in/log-in";
 import Parameters from "auth/components/parameters/parameters";
 import Statistics from "main/components/statistics/statistics";
+import Registration from "auth/components/registration/registration";
 
 export const ROUTES = [
     {
@@ -17,6 +18,11 @@ export const ROUTES = [
             {
                 path: "/auth/log-in",
                 component: userIsNotAuthenticated(LogIn),
+                exact: true
+            },
+            {
+                path: "/auth/registration",
+                component: userIsNotAuthenticated(Registration),
                 exact: true
             },
             {

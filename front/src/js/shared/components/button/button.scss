@@ -1,27 +1,35 @@
 .button {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    margin-top: 12px;
+position: relative;
 
-    &__inner {
-        cursor: pointer;
-        width: 100%;
-        outline: none;
-        background: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 46px;
-        border: 2px solid #626262;
-        font-size: 16px;
-        letter-spacing: 0.5px;
-        font-weight: 600;
-        border-radius: 4px;
-        opacity: 0.8;
+display: flex;
+flex: 1;
+flex-direction: column;
 
-        &:hover {
+margin-top: 12px;
+
+
+
+&__inner {
+display: flex;
+align-items: center;
+justify-content: center;
+
+width: 100%;
+height: 46px;
+
+cursor: pointer;
+letter-spacing: 0.5px;
+
+opacity: 0.8;
+border: 2px solid #626262;
+border-radius: 4px;
+outline: none;
+background: transparent;
+
+font-size: 16px;
+font-weight: 600;
+
+&:hover {
             opacity: 1;
         }
     }

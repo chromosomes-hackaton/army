@@ -16,7 +16,7 @@ export default class Auth extends React.PureComponent {
             <div className="auth__container">
                 {routes &&
                     routes.map((route, i) => <Route {...route} key={i} />)}
-                <Redirect to="/auth/parameters" from="/auth" />
+                {/* <Redirect to="/auth/log-in" from="/auth" /> */}
             </div>
         );
     }
