@@ -1,0 +1,52 @@
+// Body
+$body-bg: #f8fafc;
+$default-color-font: #222;
+$white-font-color: #fff;
+$dark-white-color: #eee;
+$default-background: #d9d9d9;
+$light-darker-color: #999;
+$lighter-gray-color: #ddd;
+$grey-color: #aaa;
+
+$font-input-color: #ddd;
+
+$high-priority-background: #bf3f3f;
+$medium-priority-background: #e6a919;
+/*$low-background-priority: #3fbf4f;*/
+$low-background-priority: green;
+$noset-background-priority: #ccc;
+$default-background-color: #bcbcbc;
+$white-background-color: #fff;
+$dark-grey-background: #666;
+$blue-light-background: #1273b1;
+$blue-dark-background: #0c4d75;
+$blue-page-auth-background:rgb(0,120,195);
+
+// Typography
+$font-family-sans-serif: 'Roboto', sans-serif;
+$font-size-base: 0.9rem;
+$font-size-page-title: 1.5rem;
+$font-size-project-title: 1.7rem;
+$font-size-main-title: 1.3rem;
+$font-size-title: 1.1rem;
+$font-size-nav-cards: 1.0rem;
+$font-size-sm-body: 0.8rem;
+$font-size-sm-header: 0.7rem;
+$font-size-tiny: 0.6rem;
+$font-size-kpi: 2.5rem;
+
+// Width
+$average-width: 1280px;
+
+// Colors
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: green;
+/*$green: #38c172;*/
+$teal: #4dc0b5;
+$cyan: #6cb2eb;

@@ -11,9 +11,8 @@
         cursor: pointer;
         transition: 250ms;
 
-        background: $blue-page-auth-background;
+        background: rgb(0, 120, 195);
 
-        font-size: $font-size-base;
         &--disabled {
             cursor: default;
 
@@ -31,6 +30,6 @@
 
         text-align: center;
 
-        color: $white-font-color;
+        color: #fff;
     }
 }

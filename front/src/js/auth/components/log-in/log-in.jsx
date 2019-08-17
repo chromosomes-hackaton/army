@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'shared/components';
 
 import './Log-in.scss';
 
@@ -9,6 +10,10 @@ export default class LogIn extends React.PureComponent {
     static defaultProps = {};
 
     render() {
-        return <div className="log-in__container">dwqdwq</div>;
+        return (
+            <div className="log-in__container">
+                <Button content="dwqdwqwdq" />
+            </div>
+        );
     }
 }
