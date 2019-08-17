@@ -22,6 +22,10 @@ path {
     color: inherit;
 }
 
+p {
+    margin-bottom: 0;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -34,6 +38,10 @@ path {
     font-weight: 300;
 }
 
+.sk-fading-circle div:before {
+    background: rgb(67, 80, 73) !important;
+}
+
 input:disabled {
     background: inherit;
 }
@@ -44,8 +52,4 @@ input:disabled {
 
 .margin-reset {
     margin: 0;
-}
-
-a {
-    color: black;
 }

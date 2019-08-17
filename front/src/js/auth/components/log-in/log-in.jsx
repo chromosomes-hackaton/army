@@ -1,11 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Button, Input, Spinner } from 'shared/components';
+import { signIn } from '../../../_root/actions/user.actions';
+import { getIsChecking } from '../../../_root/selectors/user.selectors';
 
 import './Log-in.scss';
 
-export default class LogIn extends React.PureComponent {
+class LogIn extends React.PureComponent {
     state = {
         login: '',
         password: '',
@@ -37,13 +39,12 @@ export default class LogIn extends React.PureComponent {
     }
 
     onClick = () => {
-        this.setState({
-            isPending: true
-        });
+        const { login, password } = this.state;
+        this.props.signIn({ login, password });
     }
 
     render() {
-        const { login, password, isValidForm, isPending } = this.state;
+        const { login, password, isValidForm } = this.state;
 
         return (
             <div className="log-in__container">
@@ -71,7 +72,7 @@ export default class LogIn extends React.PureComponent {
                         classNameContainer="log-in__input"
                     />
                     <div className="log-in__bottom">
-                        {!isPending ? (
+                        {!this.props.isChecking ? (
                             <>
                                 <NavLink to="/auth/registration">Зарегистрироваться</NavLink>
                                 <div className="log-in__button">
@@ -79,7 +80,9 @@ export default class LogIn extends React.PureComponent {
                                 </div>
                             </>
                         ) : (
-                            <Spinner />
+                            <div className="spinner-container">
+                                <Spinner />
+                            </div>
                         )}
                     </div>
                     {!isValidForm && <div className="log-in__error">Неверный логин или пароль</div>}
@@ -88,3 +91,13 @@ export default class LogIn extends React.PureComponent {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    isChecking: getIsChecking(state),
+});
+
+const mapDispatchToProps = {
+    signIn,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

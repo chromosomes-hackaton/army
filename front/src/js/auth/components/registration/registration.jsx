@@ -101,7 +101,9 @@ export default class Registration extends React.Component {
                                     </div>
                                 </div>
                             )
-                            : <Spinner />
+                            : (<div className="spinner-container">
+                                <Spinner />
+                            </div>)
                     }
                     {errorMessage && <div className="registation__error">{errorMessage}</div>}
                 </form>

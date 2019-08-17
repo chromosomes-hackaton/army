@@ -21,6 +21,11 @@ export const ROUTES = [
         routes: [
             {
                 path: "/auth/log-in",
+                component: userIsNotAuthenticated(LogIn),
+                exact: true
+            },
+            {
+                path: "/auth/diagnosis",
                 component: userIsNotAuthenticated(Diagnosis),
                 exact: true
             },
