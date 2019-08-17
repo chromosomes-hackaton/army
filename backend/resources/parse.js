@@ -2,18 +2,9 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 const articleService = require('./article/article.service');
 const specialistService = require('./specialist/specialist.service');
+const questionService = require('./question/question.service');
 const diseaseService = require('./disease/disease.service');
-
-const SPECIALISTS = [
-{name: 'терапевт' },
-{name: 'офтальмолог' },
-{name: 'дерматовенеролог' },
-{name: 'стомотолог' },
-{name: 'психолог' },
-{name: 'хирург' },
-{name: 'оториноларинголог' },
-{name: 'невролог' }
-];
+const { SPECIALISTS, QUESTIONS } = require('./constants');
 
 const getSpecialistId = (articleIndex, specialists) => {
     if (articleIndex >= 0 && articleIndex <= 20 || articleIndex >= 42 && articleIndex <= 61 || articleIndex >=71 && articleIndex <=80 || articleIndex >=87 && articleIndex <=89){
@@ -41,6 +32,15 @@ const getSpecialistId = (articleIndex, specialists) => {
     await specialistService.deleteMany();
     await specialistService.insertMany(SPECIALISTS);
     const specialists = await specialistService.find();
+    const questions = QUESTIONS.map(q => {
+        const specialist = specialists.find(spec => q.specialistName === spec.name);
+        return {
+            question: q.question,
+            specialistId: specialist._id
+        }
+    });
+    await questionService.deleteMany();
+    await questionService.insertMany(questions);
     const responseRaspisanie = await axios.get('https://povestka.by/wiki/raspisanie/').then(res=>res.data);
     const $ = cheerio.load(responseRaspisanie);
     const parsedArticles = $('a').filter((i,el)=>{
