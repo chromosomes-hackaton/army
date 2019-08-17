@@ -5,32 +5,30 @@ display: flex;
 flex: 1;
 flex-direction: column;
 
-margin-top: 12px;
+    &__inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
+        width: 100%;
+        height: 46px;
 
+        cursor: pointer;
+        letter-spacing: 0.5px;
 
-&__inner {
-display: flex;
-align-items: center;
-justify-content: center;
+        opacity: 0.6;
+        border: 2px solid #626262;
+        border-radius: 4px;
+        outline: none;
+        background: transparent;
+        transition-duration: 150ms;
 
-width: 100%;
-height: 46px;
+        font-size: 16px;
+        font-weight: 400;
 
-cursor: pointer;
-letter-spacing: 0.5px;
-
-opacity: 0.8;
-border: 2px solid #626262;
-border-radius: 4px;
-outline: none;
-background: transparent;
-
-font-size: 16px;
-font-weight: 600;
-
-&:hover {
+        &:hover {
             opacity: 1;
+            transition-duration: 150ms;
         }
     }
 }
