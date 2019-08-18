@@ -1,6 +1,10 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { Route, Switch, Router, Redirect } from "react-router-dom";
+import { hasToken } from '../../../../services/authService';
+import LogIn from '../../../auth/components/log-in/log-in';
+import Registration from '../../../auth/components/registration/registration';
+import { withRouter } from "react-router";
 
 import createStore from "_root/store";
 import history from "_root/tools/history-tool";
@@ -10,9 +14,57 @@ import bg from "../../../../img/bg.jpg";
 import "./root.scss";
 
 const store = createStore();
+const Routes = ({ history }) => (
+    <>
+        {
+        !hasToken()
+            ?
+            <Switch>
+                <Route
+                    exact
+                    path="/auth/log-in"
+                    component={LogIn}
+                />
+                <Route
+                    exact
+                    path="/auth/registration"
+                    component={Registration}
+                />
+                <Route
+                    path="*"
+                    render={() => <Redirect to={{ pathname: "/auth/log-in" }} />}
+                />
+            </Switch>
+            :
+            <Switch>
+                {ROUTES.map((route, i) => (
+                    <Route
+                        key={i}
+                        path={route.path}
+                        exact={route.exact}
+                        render={props => (
+                            <route.component
+                                {...props}
+                                routes={route.routes}
+                            />
+                        )}
+                    />
+                ))}
+                <Route
+                    path="*"
+                    render={() => <Redirect to={{ pathname: "/profile" }} />}
+                />
+            </Switch>
+        }
+    </>
+);
 
-export default class Root extends React.PureComponent {
+const WithRoutes = withRouter(Routes);
+
+class Root extends React.PureComponent {
     render() {
+        console.log(this.props.history);
+        console.log(hasToken());
         return (
             <Provider store={store}>
                 <>
@@ -22,23 +74,7 @@ export default class Root extends React.PureComponent {
                     />
                     <div className="app-content">
                         <Router history={history}>
-                            <Switch>
-                                {ROUTES.map((route, i) => (
-                                    <Route
-                                        key={i}
-                                        path={route.path}
-                                        exact={route.exact}
-                                        render={props => (
-                                            <route.component
-                                                {...props}
-                                                routes={route.routes}
-                                            />
-                                        )}
-                                    />
-                                ))}
-
-                                {/* <Redirect to="/statistics" /> */}
-                            </Switch>
+                            <WithRoutes />
                         </Router>
                     </div>
                 </>
@@ -46,3 +82,5 @@ export default class Root extends React.PureComponent {
         );
     }
 }
+
+export default Root;

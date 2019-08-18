@@ -41,6 +41,14 @@ api.interceptors.response.use(
   error => errorMiddleware(error),
 );
 
+export const get = (endpoint, data, options = {}) =>
+  api.get(endpoint, { params: data }, {
+    ...options,
+    headers: {
+      'Authorization': `Bearer ${authService.getToken() || ''}`,
+    },
+  });
+
 export const post = (endpoint, data, options = {}) =>
   api.post(endpoint, data, {
     ...options,

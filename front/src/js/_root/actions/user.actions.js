@@ -44,6 +44,8 @@ export const signUp = ({ username, password }) => async dispatch => {
     payload: true,
   });
 
+  let error = '';
+
   try {
     const { user, token } = await post(`/user/sign-up`, { username, password });
 
@@ -56,13 +58,14 @@ export const signUp = ({ username, password }) => async dispatch => {
       payload: { ...user },
     });
   } catch (e) {
-    throw e;
+    error = e;
   }
   
   await dispatch({
     type: SET_IS_CHECKING,
     payload: false,
   });
+  return error;
 };
 
 export const logOut = () => dispatch => {

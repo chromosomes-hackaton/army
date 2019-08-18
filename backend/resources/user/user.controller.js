@@ -69,7 +69,7 @@ module.exports.signUp = async (req, res) => {
       throw new Error('Cannot hash password!');
     }
     
-    const createdUser = userService.create({ username, passwordHash });
+    const createdUser = await userService.create({ username, passwordHash });
 
     const token = jwtService.sign({ username: createdUser.username });
     res.status(200);
