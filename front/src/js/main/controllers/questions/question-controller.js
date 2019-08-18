@@ -10,3 +10,14 @@ export async function fetchQuestions() {
         return data;
     });
 }
+export async function fetchSpecialists(Ids) {
+
+    return axios.post(`/article/bySpecialistIds`,{
+            specialistIds: Ids
+        }).then((res) => {
+        const data = res.data;
+        console.log(res, 111111111111);
+        return data;
+    });
+}
+
