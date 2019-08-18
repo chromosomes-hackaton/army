@@ -8,13 +8,11 @@ import {
     GET_QUESTIONS_SUCCESS
 } from '../../constants/questions';
 
-
 const initialState = {
     questions: [],
     specialists: [],
     isPending: false
 }
-
 
 export default function questionReducer(state = initialState, action) {
     switch (action.type) {

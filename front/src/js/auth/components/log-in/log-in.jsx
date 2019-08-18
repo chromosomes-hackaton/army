@@ -1,16 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { compose } from 'redux';
+import { withRouter } from "react-router";
+
 import { Button, Input, Spinner } from 'shared/components';
+import { signIn } from '../../../_root/actions/user.actions';
+import { getIsChecking } from '../../../_root/selectors/user.selectors';
 
 import './Log-in.scss';
 
-export default class LogIn extends React.PureComponent {
+class LogIn extends React.PureComponent {
     state = {
-        login: '',
+        username: '',
         password: '',
-        isValidForm: true,
-        isPending: false
+        error: '',
     }
 
     onChange = ({ target }, id) => {
@@ -21,44 +25,38 @@ export default class LogIn extends React.PureComponent {
         event.preventDefault();
     }
 
-    changeValidForm = isValidForm => {
-        this.setState({
-            isValidForm
-        });
-    }
-
     validateForm = () => {
-        const { login, password } = this.state;
+        const { username, password } = this.state;
 
-        if (login && password) {
+        if (username && password) {
             return true;
         }
         return false;
     }
 
-    onClick = () => {
-        this.setState({
-            isPending: true
-        });
+    onClick = async () => {
+        this.setState({ error: '' });
+        const { username, password } = this.state;
+        const error = await this.props.signIn({ username, password });
+        if (error) {
+            this.setState({ error });
+        } else {
+            this.props.history.push('/profile');
+        }
     }
 
     render() {
-        const { login, password, isValidForm, isPending } = this.state;
+        const { username, password, error } = this.state;
 
         return (
             <div className="log-in__container">
-                {/* <div className="auth-bar">
-                    <span className="auth-bar__item auth-bar__item--selected">Вход в систему</span>
-                    <span className="auth-bar__divider">|</span>
-                    <span className="auth-bar__item">Регистрация </span>
-                </div> */}
                 <form onSubmit={this.noReload} className="log-in__form">
                     <p className="title">Вход в систему</p>
                     <Input
-                        value={login}
+                        value={username}
                         label="Введите логин:"
                         required
-                        onChange={e => this.onChange(e, 'login')}
+                        onChange={e => this.onChange(e, 'username')}
                         classNameContainer="log-in__input"
                     />
                     <Input
@@ -70,8 +68,9 @@ export default class LogIn extends React.PureComponent {
                         onChange={e => this.onChange(e, 'password')}
                         classNameContainer="log-in__input"
                     />
+                    {error && <div className="log-in__error">{error}</div>}
                     <div className="log-in__bottom">
-                        {!isPending ? (
+                        {!this.props.isChecking ? (
                             <>
                                 <NavLink to="/auth/registration">Зарегистрироваться</NavLink>
                                 <div className="log-in__button">
@@ -79,12 +78,25 @@ export default class LogIn extends React.PureComponent {
                                 </div>
                             </>
                         ) : (
-                            <Spinner />
+                            <div className="spinner-container">
+                                <Spinner />
+                            </div>
                         )}
                     </div>
-                    {!isValidForm && <div className="log-in__error">Неверный логин или пароль</div>}
                 </form>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    isChecking: getIsChecking(state),
+});
+
+const mapDispatchToProps = {
+    signIn,
+};
+
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withRedux, withRouter)(LogIn);

@@ -25,15 +25,15 @@ class Modal extends PureComponent {
         const { children } = this.props;
 
         return ReactDOM.createPortal(
-            <div className="modal flex">
-                <div className="modal-header">
-                    <div>
+            <div className="modal-container">
+                <div className="modal flex">
+                    <div className="modal-header">
                         <button type="button" className="close button" onClick={this.props.onClose}>
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <div className="question">{children}</div>
                 </div>
-                <div className="question">{children}</div>
             </div>,
             document.getElementById('modal-portal')
         );

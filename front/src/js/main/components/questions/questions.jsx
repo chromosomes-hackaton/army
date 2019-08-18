@@ -7,6 +7,9 @@ import { Button, Input, Spinner } from 'shared/components';
 import Slider from '../slider/slider';
 // import { QUESTIONS } from '../../constants/questions';
 import { getQuestions, getSpecialists } from '../../actions/questions/question-action';
+import './questions.scss';
+import { addRecommendedSpecialists } from '_root/actions/specialist.actions';
+import { getRecommendedSpecialists } from '_root/selectors/specialist.selectors';
 
 class Questions extends React.Component {
     constructor() {
@@ -29,7 +32,12 @@ class Questions extends React.Component {
         if (answer) {
             answer.isChecked = isChecked;
         } else {
-            answers.push({ questionId: question._id, specialistName: question.specialistName, isChecked });
+            answers.push({
+                questionId: question._id,
+                specialistName: question.specialistName,
+                specialistId: question.specialistId,
+                isChecked,
+            });
         }
         if (this.answers.length === this.props.questions.length) {
             this.setState({
@@ -39,15 +47,15 @@ class Questions extends React.Component {
     };
 
     onSave = () => {
-        let Ids = [];
-        this.answers.forEach(item => {
-            if (item.isChecked) {
-                Ids.push(item.specialistName);
+        let specialists = [];
+        this.answers.forEach((answer) => {
+            if (answer.isChecked && !specialists.find(obj => obj.specialistName === answer.specialistName)) {
+                specialists.push(answer);
             }
         });
+        this.props.addRecommendedSpecialists(specialists);
         this.setState({
             isReady: true,
-            specialists: Ids
         });
     };
 
@@ -57,32 +65,32 @@ class Questions extends React.Component {
 
         return !isReady ? (
             <div className="questions__container">
-                {questions.length && <Slider onChange={this.onChange} data={questions} />}
+                {!!questions.length && <Slider onChange={this.onChange} data={questions} />}
                 <div className="btn-margin">
                     <Button text="Сохранить" onClick={this.onSave} disabled={!isValid} />
                 </div>
             </div>
         ) : (
-            <div>
-                <h3>Рекомендуемые специалисты для посещения: </h3>
-                {specialists.map(item => (
-                    <h4>{item}</h4>
+            <div className="recommended-modal">
+                <h3>Рекомендуем вам посетить следующих специалистов: </h3>
+                {this.props.recommendedSpecialists.map((item, index) => (
+                    <h4 key={index}>{`${index + 1}) ${item.specialistName}`}</h4>
                 ))}
             </div>
         );
     }
 }
 
-const mapStateToProps = ({ questions }) => ({
-    questions: questions.questions,
-    // specialists: questions.specialists,
-    isPending: questions.isPending
+const mapStateToProps = (state) => ({
+    questions: state.questions.questions,
+    isPending: state.questions.isPending,
+    recommendedSpecialists: getRecommendedSpecialists(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-    // getQuestions: bindActionCreators(getQuestions, dispatch)
     getQuestions: bindActionCreators(getQuestions, dispatch),
-    getSpecialists: bindActionCreators(getSpecialists, dispatch)
+    getSpecialists: bindActionCreators(getSpecialists, dispatch),
+    addRecommendedSpecialists: bindActionCreators(addRecommendedSpecialists, dispatch),
 });
 
 export default connect(

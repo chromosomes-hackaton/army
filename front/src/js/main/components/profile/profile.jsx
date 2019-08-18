@@ -18,14 +18,15 @@ import CustomButton from '../custom-button/custom-button';
 // import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, CustomizedLabel, Legend, Tooltip } from 'recharts';
 
 import './profile.scss';
+import { getUserInfo } from '_root/selectors/user.selectors';
+import { fetchUser } from '_root/actions/user.actions';
+import avatar from './avatar.png';
+import { getRecommendedSpecialists } from '_root/selectors/specialist.selectors';
 
+const docs = ['терапевт', 'офтальмолог', 'дерматовенеролог', 'стоматолог', 'психиатор', 'невролог', 'оториноларинголог'];
 const { Option } = Select;
 
 class Statistics extends React.PureComponent {
-    static propTypes = {};
-
-    static defaultProps = {};
-
     state = {
         userTitles: [],
         hintNode: null,
@@ -35,6 +36,9 @@ class Statistics extends React.PureComponent {
         isOpenedWeight: false,
         isOpenedUsername: false
     };
+    componentDidMount() {
+        this.props.fetchUser();
+    }
 
     componentDidMount() {
         this.props.getSpecialists();
@@ -63,6 +67,12 @@ class Statistics extends React.PureComponent {
         this.props.onButtonClick(1);
     };
 
+    renderCustomButton = (title, index) => (
+        <CustomButton key={index} title={title} state={this.props.recommendedSpecialists
+            .map(item => item.specialistName)
+            .includes(title) ? 2 : 1} 
+        />
+    );
     onChangeSelect = Id => {
         this.props.getDiseases(Id);
          this.setState({ disease: null });
@@ -79,50 +89,14 @@ class Statistics extends React.PureComponent {
             <>
                 <div className="profile__container">
                     <div className="profile__parameters">
-                        <Avatar
-                            shape="square"
-                            size={120}
-                            style={{
-                                width: '200px',
-                                height: '200px',
-                                marginRight: '20px'
-                            }}
-                            icon="user"
-                            className="profile__avatar"
-                        />
+                        <div className="logo">
+                            <img src={avatar} className="logo__img" />
+                        </div>
 
                         <div className="profile__indicators-container">
-                            {isOpenedUsername ? (
-                                <div
-                                    className={ClassNames(
-                                        'profile__indicators-info-container',
-                                        'profile__indicators-info-container--active'
-                                    )}
-                                >
-                                    <Input
-                                        className="profile__input-info"
-                                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        placeholder="Username"
-                                    />
-                                    <Icon
-                                        onClick={this.openUsername}
-                                        type="check"
-                                        style={{
-                                            color: '#89BF5A',
-                                            marginLeft: '3px'
-                                        }}
-                                    />
-                                </div>
-                            ) : (
-                                <div className="profile__indicators-info-container">
-                                    <p className="profile__indicators-info">Andreiiii</p>
-                                    <Icon
-                                        onClick={this.openUsername}
-                                        type="edit"
-                                        style={{ color: 'rgba(0,0,0,.25)' }}
-                                    />
-                                </div>
-                            )}
+                            <div className="profile__indicators-info-container">
+                                <p className="profile__indicators-info">{!!this.props.user && this.props.user.username}</p>
+                            </div>
 
                             <div className="profile__indicators-container--main">
                                 {isOpenedHeight ? (
@@ -219,6 +193,10 @@ class Statistics extends React.PureComponent {
                         <NewButton text="Просмотреть статистику" onClick={this.openStat} />
                     </div>
 
+                    <div className="profile__description">
+                        {docs.map(this.renderCustomButton)}
+                    </div>
+
                     <h1>Вы прошли специалиста и знаете свой диагноз?</h1>
                     <div className="specialist-select-container">
                         <h3>Выберите специалиста из предложенных:</h3>
@@ -265,17 +243,6 @@ class Statistics extends React.PureComponent {
                     ) : (
                         ''
                     )}
-
-                    {/*
-                    <div className="profile__description">
-                        <CustomButton title="Терапевт" state={1} />
-                        <CustomButton title="Офтальмолог" state={2} />
-                        <CustomButton title="Дерматовенеролог" state={3} />
-                        <CustomButton title="Стоматолог" state={1} />
-                        <CustomButton title="Психиатр" state={2} />
-                        <CustomButton title="Невролог" state={3} />
-                        <CustomButton title="Оториноларинголог" state={1} />
-                    </div> */}
                 </div>
                 {this.props.isActive && this.props.modalProps === 1 && (
                     <React.Fragment>
@@ -300,19 +267,22 @@ class Statistics extends React.PureComponent {
     }
 }
 
-const mapStateToProps = ({ modal, diseases }) => ({
-    modalProps: modal.modalProps,
-    isActive: modal.isActive,
-    diseases: diseases.diseases,
-    specialts: diseases.specialists,
-    isPending: diseases.isPending
+const mapStateToProps = (state) => ({
+    modalProps: state.modal.modalProps,
+    isActive: state.modal.isActive,
+    diseases: state.diseases.diseases,
+    specialts: state.diseases.specialists,
+    isPending: state.diseases.isPending,
+    user: getUserInfo(state),
+    recommendedSpecialists: getRecommendedSpecialists(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     onButtonClick: bindActionCreators(showModal, dispatch),
     onClose: bindActionCreators(hideModal, dispatch),
+    fetchUser: bindActionCreators(fetchUser, dispatch),
     getSpecialists: bindActionCreators(getSpecialists, dispatch),
-    getDiseases: bindActionCreators(getDiseases, dispatch)
+    getDiseases: bindActionCreators(getDiseases, dispatch),
 });
 
 export default connect(

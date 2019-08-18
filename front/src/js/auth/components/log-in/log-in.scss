@@ -12,7 +12,7 @@
         flex-direction: column;
         justify-content: space-between;
         background: #fff;
-        min-width: 400px;
+        width: 496px;
         padding: 24px 48px;
     }
     &__input {
@@ -43,6 +43,8 @@
     &__error {
         display: flex;
         justify-content: center;
+        margin-bottom: -16px;
+        margin-top: 12px;
 
         margin-top: 5%;
 
@@ -82,4 +84,9 @@
             opacity: 1;
         }
     }
+}
+
+.spinner-container {
+    margin-top: 6px;
+    width: 100%;
 }
