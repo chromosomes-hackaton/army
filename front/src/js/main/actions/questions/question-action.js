@@ -6,7 +6,7 @@ import {
 } from '../../constants/questions';
 
 
-export function getQuestionsSucces(data) {
+export function getQuestionsSuccess(data) {
     return (dispatch) => {
         dispatch({
             type: `${GET_QUESTIONS_SUCCESS}`,
@@ -35,11 +35,12 @@ export function getQuestionsError() {
 
 export function getQuestions() {
     return async (dispatch) => {
+        console.log("dqw");
         dispatch(getQuestionsRequest());
-
+        console.log("dqw");
         try {
             const data = await fetchQuestions();
-            dispatch(getQuestionsSucces(data));
+            dispatch(getQuestionsSuccess(data));
         } catch (err) {
             dispatch(getQuestionsError());
         }
