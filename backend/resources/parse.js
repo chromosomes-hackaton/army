@@ -29,78 +29,78 @@ const getSpecialistId = (articleIndex, specialists) => {
     return 0;
 }
 
-(async() => {
-    await specialistService.deleteMany();
-    await specialistService.insertMany(SPECIALISTS);
-    const specialists = await specialistService.find();
-    const questions = QUESTIONS.map(q => {
-        const specialist = specialists.find(spec => q.specialistName === spec.name);
-        return {
-            question: q.question,
-            specialistId: specialist._id.toString()
-        }
-    });
-    await questionService.deleteMany();
-    await questionService.insertMany(questions);
-    const responseRaspisanie = await axios.get('https://povestka.by/wiki/raspisanie/').then(res=>res.data);
-    let $ = cheerio.load(responseRaspisanie);
-    const parsedArticles = $('a').filter((i,el)=>{
-        return $(el).attr('href').includes('article');
-    }).map((i,el)=>({
-        name: $(el).text(),
-        link: $(el).attr('href'),
-        specialistId: getSpecialistId(i + 1, specialists).toString()
-    })).toArray();
-    await articleService.deleteMany();
-    await articleService.insertMany(parsedArticles);
-    const articles = await articleService.find();
-    const diseases = [];
-    const promises = articles.map(article => axios.get(article.link));
-    const responses = await Promise.all(promises);
-    responses.forEach((res,index) => {
-        const $ = cheerio.load(res.data);
-        const table = $('table:first-child');
-        const rows = table.find('tr').slice(3,table.find('tr').length);
-        const name = table.find('tr:nth-child(3) td:nth-child(2)').text();
-        for (let i = 0; i < rows.length; i++){
-            diseases.push({
-                name: name + ' ' + rows.eq(i).find('td:nth-child(2)').text(),
-                category: rows.eq(i).find('td:nth-child(3)').text(),
-                articleId: articles[index]._id.toString()
-            });
-        }
-    });
-    await diseaseService.deleteMany();
-    await diseaseService.insertMany(diseases);
-    await imbService.deleteMany();
-    await imbService.insertMany([
-        {
-            name: 'Недостаточная масса тела',
-            to: 18.5
-        },
-        {
-            name: 'Норма',
-            from: 18.5,
-            to: 24.9
-        },
-        {
-            name: 'Избыточная масса тела',
-            from: 25,
-            to: 29.9
-        },
-        {
-            name: 'Ожирение 1',
-            from: 30,
-            to: 34.9
-        },
-        {
-            name: 'Ожирение 2',
-            from: 35,
-            to: 39.9
-        },
-        {
-            name: 'Ожирение 3',
-            from: 40
-        }
-    ])
-})();
+// (async() => {
+//     await specialistService.deleteMany();
+//     await specialistService.insertMany(SPECIALISTS);
+//     const specialists = await specialistService.find();
+//     const questions = QUESTIONS.map(q => {
+//         const specialist = specialists.find(spec => q.specialistName === spec.name);
+//         return {
+//             question: q.question,
+//             specialistId: specialist._id.toString()
+//         }
+//     });
+//     await questionService.deleteMany();
+//     await questionService.insertMany(questions);
+//     const responseRaspisanie = await axios.get('https://povestka.by/wiki/raspisanie/').then(res=>res.data);
+//     let $ = cheerio.load(responseRaspisanie);
+//     const parsedArticles = $('a').filter((i,el)=>{
+//         return $(el).attr('href').includes('article');
+//     }).map((i,el)=>({
+//         name: $(el).text(),
+//         link: $(el).attr('href'),
+//         specialistId: getSpecialistId(i + 1, specialists).toString()
+//     })).toArray();
+//     await articleService.deleteMany();
+//     await articleService.insertMany(parsedArticles);
+//     const articles = await articleService.find();
+//     const diseases = [];
+//     const promises = articles.map(article => axios.get(article.link));
+//     const responses = await Promise.all(promises);
+//     responses.forEach((res,index) => {
+//         const $ = cheerio.load(res.data);
+//         const table = $('table:first-child');
+//         const rows = table.find('tr').slice(3,table.find('tr').length);
+//         const name = table.find('tr:nth-child(3) td:nth-child(2)').text();
+//         for (let i = 0; i < rows.length; i++){
+//             diseases.push({
+//                 name: name + ' ' + rows.eq(i).find('td:nth-child(2)').text(),
+//                 category: rows.eq(i).find('td:nth-child(3)').text(),
+//                 articleId: articles[index]._id.toString()
+//             });
+//         }
+//     });
+//     await diseaseService.deleteMany();
+//     await diseaseService.insertMany(diseases);
+//     await imbService.deleteMany();
+//     await imbService.insertMany([
+//         {
+//             name: 'Недостаточная масса тела',
+//             to: 18.5
+//         },
+//         {
+//             name: 'Норма',
+//             from: 18.5,
+//             to: 24.9
+//         },
+//         {
+//             name: 'Избыточная масса тела',
+//             from: 25,
+//             to: 29.9
+//         },
+//         {
+//             name: 'Ожирение 1',
+//             from: 30,
+//             to: 34.9
+//         },
+//         {
+//             name: 'Ожирение 2',
+//             from: 35,
+//             to: 39.9
+//         },
+//         {
+//             name: 'Ожирение 3',
+//             from: 40
+//         }
+//     ])
+// })();
