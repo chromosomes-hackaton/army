@@ -14,8 +14,7 @@ class LogIn extends React.PureComponent {
     state = {
         username: '',
         password: '',
-        isValidForm: true,
-        isPending: false
+        error: '',
     }
 
     onChange = ({ target }, id) => {
@@ -24,12 +23,6 @@ class LogIn extends React.PureComponent {
 
     noReload = event => {
         event.preventDefault();
-    }
-
-    changeValidForm = isValidForm => {
-        this.setState({
-            isValidForm
-        });
     }
 
     validateForm = () => {
@@ -42,21 +35,21 @@ class LogIn extends React.PureComponent {
     }
 
     onClick = async () => {
+        this.setState({ error: '' });
         const { username, password } = this.state;
-        await this.props.signIn({ username, password });
-        this.props.history.push('/profile');
+        const error = await this.props.signIn({ username, password });
+        if (error) {
+            this.setState({ error });
+        } else {
+            this.props.history.push('/profile');
+        }
     }
 
     render() {
-        const { username, password, isValidForm } = this.state;
+        const { username, password, error } = this.state;
 
         return (
             <div className="log-in__container">
-                {/* <div className="auth-bar">
-                    <span className="auth-bar__item auth-bar__item--selected">Вход в систему</span>
-                    <span className="auth-bar__divider">|</span>
-                    <span className="auth-bar__item">Регистрация </span>
-                </div> */}
                 <form onSubmit={this.noReload} className="log-in__form">
                     <p className="title">Вход в систему</p>
                     <Input
@@ -75,6 +68,7 @@ class LogIn extends React.PureComponent {
                         onChange={e => this.onChange(e, 'password')}
                         classNameContainer="log-in__input"
                     />
+                    {error && <div className="log-in__error">{error}</div>}
                     <div className="log-in__bottom">
                         {!this.props.isChecking ? (
                             <>
@@ -89,7 +83,6 @@ class LogIn extends React.PureComponent {
                             </div>
                         )}
                     </div>
-                    {!isValidForm && <div className="log-in__error">Неверный логин или пароль</div>}
                 </form>
             </div>
         );

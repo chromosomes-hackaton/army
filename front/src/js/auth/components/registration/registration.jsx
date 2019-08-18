@@ -1,29 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { compose } from 'redux';
+import { withRouter } from "react-router";
+
 import { Button, Input, Spinner } from 'shared/components';
+import { signUp } from '../../../_root/actions/user.actions';
+import { getIsChecking } from '../../../_root/selectors/user.selectors';
 
 import './registration.scss';
 
-export default class Registration extends React.Component {
-    static propTypes = {};
-
-    static defaultProps = {};
-
-    constructor() {
-        super();
-        this.state = {
-            login: '',
-            password: '',
-            repeatPassword: '',
-            errorMessage: '',
-            isPending: false
-        };
-    }
+class Registration extends React.Component {
+    state = {
+        username: '',
+        password: '',
+        repeatPassword: '',
+        errorMessage: '',
+        isPending: false
+    };
 
     onChange = ({ target }, id) => {
-        console.dir(target);
         this.setState({ [id]: target.value });
     };
 
@@ -32,25 +28,31 @@ export default class Registration extends React.Component {
     };
 
     validateForm = () => {
-        const { login, password, repeatPassword } = this.state;
+        const { username, password, repeatPassword } = this.state;
 
-        if (login && password && repeatPassword) {
-            if (password !== repeatPassword) {
-                return false;
-            }
+        if (username && password && repeatPassword) {
             return true;
         }
         return false;
     };
 
-    onClick = () => {
-        this.setState({
-            isPending: true
-        });
-    };
+    onClick = async () => {
+        const { username, password, repeatPassword } = this.state;
+        if (password !== repeatPassword) {
+            this.setState({ error: 'Passwords don\'t match!' });
+            return;
+        }
+        this.setState({ error: '' });
+        const error = await this.props.signUp({ username, password });
+        if (error) {
+            this.setState({ error });
+        } else {
+            this.props.history.push('/profile');
+        }
+    }
 
     render() {
-        const { login, password, repeatPassword, errorMessage, isPending } = this.state;
+        const { username, password, repeatPassword, error } = this.state;
 
         return (
             <div className="registation__container">
@@ -59,10 +61,10 @@ export default class Registration extends React.Component {
                         <p className="title">Вход в систему</p>
                     </div>
                     <Input
-                        name="login"
-                        value={login}
+                        name="username"
+                        value={username}
                         required
-                        onChange={e => this.onChange(e, 'login')}
+                        onChange={e => this.onChange(e, 'username')}
                         label="Введите логин:"
                         classNameContainer="registation__input"
                     />
@@ -84,8 +86,9 @@ export default class Registration extends React.Component {
                         onChange={e => this.onChange(e, 'repeatPassword')}
                         classNameContainer="registation__input"
                     />
+                    {error && <div className="log-in__error">{error}</div>}
                     {
-                        !isPending
+                        !this.props.isChecking
                             ? (
                                 <div className="registration__bottom">
                                     <NavLink to="/auth/log-in">Авторизироваться</NavLink>
@@ -101,13 +104,24 @@ export default class Registration extends React.Component {
                                     </div>
                                 </div>
                             )
-                            : (<div className="spinner-container">
+                            : <div className="spinner-container">
                                 <Spinner />
-                            </div>)
+                            </div>
                     }
-                    {errorMessage && <div className="registation__error">{errorMessage}</div>}
                 </form>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    isChecking: getIsChecking(state),
+});
+
+const mapDispatchToProps = {
+    signUp,
+};
+
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withRedux, withRouter)(Registration);

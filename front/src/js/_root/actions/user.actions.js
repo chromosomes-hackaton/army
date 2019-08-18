@@ -28,13 +28,41 @@ export const signIn = ({ username, password }) => async dispatch => {
     });
   } catch (e) {
     console.log(e);
+    error = e;
+  }
+
+  await dispatch({
+    type: SET_IS_CHECKING,
+    payload: false,
+  });
+  return error;
+};
+
+export const signUp = ({ username, password }) => async dispatch => {
+  await dispatch({
+    type: SET_IS_CHECKING,
+    payload: true,
+  });
+
+  try {
+    const { user, token } = await post(`/user/sign-up`, { username, password });
+
+    console.log(user);
+  
+    authService.setToken(token);
+
+    await dispatch({
+      type: SIGN_IN,
+      payload: { ...user },
+    });
+  } catch (e) {
+    throw e;
   }
   
   await dispatch({
     type: SET_IS_CHECKING,
     payload: false,
   });
-  return error;
 };
 
 export const logOut = () => dispatch => {
