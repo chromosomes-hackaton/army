@@ -54,24 +54,24 @@ const getSpecialistId = (articleIndex, specialists) => {
     await articleService.deleteMany();
     await articleService.insertMany(parsedArticles);
     const articles = await articleService.find();
-    // const diseases = [];
-    // const promises = articles.map(article => axios.get(article.link));
-    // const responses = await Promise.all(promises);
-    // responses.forEach((res,index) => {
-    //     const $ = cheerio.load(res.data);
-    //     const table = $('table:first-child');
-    //     const rows = table.find('tr').slice(3,table.find('tr').length);
-    //     const name = table.find('tr:nth-child(3) td:nth-child(2)').text();
-    //     for (let i = 0; i < rows.length; i++){
-    //         diseases.push({
-    //             name: name + ' ' + rows.eq(i).find('td:nth-child(2)').text(),
-    //             category: rows.eq(i).find('td:nth-child(3)').text(),
-    //             articleId: articles[index]._id.toString()
-    //         });
-    //     }
-    // });
-    // await diseaseService.deleteMany();
-    // await diseaseService.insertMany(diseases);
+    const diseases = [];
+    const promises = articles.map(article => axios.get(article.link));
+    const responses = await Promise.all(promises);
+    responses.forEach((res,index) => {
+        const $ = cheerio.load(res.data);
+        const table = $('table:first-child');
+        const rows = table.find('tr').slice(3,table.find('tr').length);
+        const name = table.find('tr:nth-child(3) td:nth-child(2)').text();
+        for (let i = 0; i < rows.length; i++){
+            diseases.push({
+                name: name + ' ' + rows.eq(i).find('td:nth-child(2)').text(),
+                category: rows.eq(i).find('td:nth-child(3)').text(),
+                articleId: articles[index]._id.toString()
+            });
+        }
+    });
+    await diseaseService.deleteMany();
+    await diseaseService.insertMany(diseases);
     await imbService.deleteMany();
     await imbService.insertMany([
         {
