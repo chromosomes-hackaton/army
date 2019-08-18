@@ -102,5 +102,6 @@ const getSpecialistId = (articleIndex, specialists) => {
 //             name: 'Ожирение 3',
 //             from: 40
 //         }
-//     ])
+//     ]);
+//     console.log('parser complited');
 // })();
