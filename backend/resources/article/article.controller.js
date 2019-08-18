@@ -9,15 +9,3 @@ module.exports.getArticles = async (req, res) => {
         console.log(e);
     }
 };
-
-module.exports.getArticlesBySpecialistIds = async(req, res) => {
-    console.log(req.body);
-    const {specialistIds} = req.body;
-    try {
-        const articles = (await articleService.find()).filter(el=>specialistIds.includes(el.specialistId.toString()));
-        res.status(200);
-        res.send([...articles]);
-        } catch(e) {
-        console.log(e);
-    }
-}

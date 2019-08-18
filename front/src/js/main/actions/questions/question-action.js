@@ -1,8 +1,9 @@
-import { fetchQuestions } from 'main/controllers/questions/question-controller';
+import { fetchQuestions, fetchSpecialists } from 'main/controllers/questions/question-controller';
 import {
     GET_QUESTIONS_ERROR,
     GET_QUESTIONS_REQUEST,
-    GET_QUESTIONS_SUCCESS
+    GET_QUESTIONS_SUCCESS,
+    GET_SPECIALISTS_SUCCESS
 } from '../../constants/questions';
 
 
@@ -35,14 +36,37 @@ export function getQuestionsError() {
 
 export function getQuestions() {
     return async (dispatch) => {
-        console.log("dqw");
+
         dispatch(getQuestionsRequest());
-        console.log("dqw");
+
         try {
             const data = await fetchQuestions();
             dispatch(getQuestionsSuccess(data));
         } catch (err) {
             dispatch(getQuestionsError());
+        }
+    };
+}
+
+export function getSpecialistsSuccess(data) {
+    return (dispatch) => {
+        dispatch({
+            type: GET_SPECIALISTS_SUCCESS,
+            payload: {
+                data
+            }
+        });
+    };
+}
+
+export function getSpecialists(Ids) {
+    return async (dispatch) => {
+        try {
+            const data = await fetchSpecialists(Ids);
+            console.log(data, 111111111);
+            dispatch(getSpecialistsSuccess(data));
+        } catch (err) {
+            dispatch();
         }
     };
 }
