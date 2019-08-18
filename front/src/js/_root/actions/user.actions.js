@@ -62,10 +62,9 @@ export const signUp = ({ username, password }) => async dispatch => {
 
   try {
     const { user, token } = await post(`/user/sign-up`, { username, password });
-
-    console.log(user);
   
     authService.setToken(token);
+    localStorage.setItem('userId', user._id);
 
     await dispatch({
       type: SIGN_IN,
