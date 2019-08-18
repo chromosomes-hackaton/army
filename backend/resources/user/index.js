@@ -5,6 +5,7 @@ const router = new Router();
 
 router.get('/', controller.getUsers);
 router.get('/:userId', controller.getUserById);
+router.post('/:userId/update', controller.update);
 router.post('/sign-in', controller.signIn);
 router.post('/sign-up', controller.signUp);
 
