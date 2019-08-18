@@ -66,8 +66,8 @@ class Statistics extends React.PureComponent {
                             shape="square"
                             size={120}
                             style={{
-                                width: '200px',
-                                height: '200px',
+                                width: '180px',
+                                height: '180px',
                                 marginRight: '20px'
                             }}
                             icon="user"
