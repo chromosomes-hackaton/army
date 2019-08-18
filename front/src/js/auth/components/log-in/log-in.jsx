@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { compose } from 'redux';
+import { withRouter } from "react-router";
+
 import { Button, Input, Spinner } from 'shared/components';
 import { signIn } from '../../../_root/actions/user.actions';
 import { getIsChecking } from '../../../_root/selectors/user.selectors';
@@ -9,7 +12,7 @@ import './Log-in.scss';
 
 class LogIn extends React.PureComponent {
     state = {
-        login: '',
+        username: '',
         password: '',
         isValidForm: true,
         isPending: false
@@ -30,21 +33,22 @@ class LogIn extends React.PureComponent {
     }
 
     validateForm = () => {
-        const { login, password } = this.state;
+        const { username, password } = this.state;
 
-        if (login && password) {
+        if (username && password) {
             return true;
         }
         return false;
     }
 
-    onClick = () => {
-        const { login, password } = this.state;
-        this.props.signIn({ login, password });
+    onClick = async () => {
+        const { username, password } = this.state;
+        await this.props.signIn({ username, password });
+        this.props.history.push('/profile');
     }
 
     render() {
-        const { login, password, isValidForm } = this.state;
+        const { username, password, isValidForm } = this.state;
 
         return (
             <div className="log-in__container">
@@ -56,10 +60,10 @@ class LogIn extends React.PureComponent {
                 <form onSubmit={this.noReload} className="log-in__form">
                     <p className="title">Вход в систему</p>
                     <Input
-                        value={login}
+                        value={username}
                         label="Введите логин:"
                         required
-                        onChange={e => this.onChange(e, 'login')}
+                        onChange={e => this.onChange(e, 'username')}
                         classNameContainer="log-in__input"
                     />
                     <Input
@@ -100,4 +104,6 @@ const mapDispatchToProps = {
     signIn,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+const withRedux = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withRedux, withRouter)(LogIn);

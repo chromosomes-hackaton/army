@@ -7,7 +7,7 @@ import {
   LOG_OUT,
 } from '../constants/user.constants';
 
-export const signIn = (username, password) => async dispatch => {
+export const signIn = ({ username, password }) => async dispatch => {
   await dispatch({
     type: SET_IS_CHECKING,
     payload: true,
@@ -16,7 +16,7 @@ export const signIn = (username, password) => async dispatch => {
   let error = '';
 
   try {
-    const { user, token } = await post(`/sign-in`, { username, password });
+    const { user, token } = await post(`/user/sign-in`, { username, password });
 
     console.log(user);
   
@@ -27,7 +27,7 @@ export const signIn = (username, password) => async dispatch => {
       payload: { ...user },
     });
   } catch (e) {
-    throw e;
+    console.log(e);
   }
   
   await dispatch({
