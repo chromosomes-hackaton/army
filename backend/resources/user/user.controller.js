@@ -80,3 +80,14 @@ module.exports.signUp = async (req, res) => {
     res.send(e.message);
   }
 };
+
+module.exports.update = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        await userService.update({ _id: userId }, req.body);
+        res.sendStatus(200);
+    } catch (e) {
+      res.status(404);
+      res.send(e.message);
+    }
+  };
