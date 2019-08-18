@@ -5,27 +5,9 @@ import QuestionsRecord from '../../records/questions/question-record';
 import {
     GET_QUESTIONS_ERROR,
     GET_QUESTIONS_REQUEST,
-    GET_QUESTIONS_SUCCESS,
-    GET_SPECIALISTS_SUCCESS
+    GET_QUESTIONS_SUCCESS
 } from '../../constants/questions';
-// import { getQuestionsSucces, getQuestionsRequest, getQuestionsError } from '../../actions/questions/question-action';
 
-
-// export const questionReducer = handleActions({
-//     [getQuestionsRequest]: (state) =>
-//         state
-//             .set('isPending', true),
-//     [getQuestionsSucces]: (state, { payload }) => {
-
-//         console.log(payload, 111111111111)
-//         return state
-//             .set('questions', payload.data)
-//             .set('isPending', false);
-//     },
-//     [getQuestionsError]: (state) =>
-//         state
-//             .set('isPending', false),
-// }, new QuestionsRecord());
 
 const initialState = {
     questions: [],
@@ -48,10 +30,10 @@ export default function questionReducer(state = initialState, action) {
             return {
                 ...state, isPending: false
             };
-        case GET_SPECIALISTS_SUCCESS:
-            return {
-                ...state, specialists: action.payload.data
-            };
+        // case GET_SPECIALISTS_SUCCESS:
+        //     return {
+        //         ...state, specialists: action.payload.data
+        //     };
         default:
             return state;
     }
