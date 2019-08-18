@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Button, Input, Spinner } from 'shared/components';
 import Slider from '../slider/slider';
-import { QUESTIONS } from '../../constants/questions';
+// import { QUESTIONS } from '../../constants/questions';
 import { getQuestions } from '../../actions/questions/question-action';
 
 class Questions extends React.Component {
@@ -17,15 +17,19 @@ class Questions extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.props.getQuestions();
+    }
+
     onChange = (question, isChecked) => {
         const { answers } = this;
-        const answer = answers.find(item => item.questionId === question.id);
+        const answer = answers.find(item => item.questionId === question._id);
         if (answer) {
             answer.isChecked = isChecked;
         } else {
-            answers.push({ questionId: question.id, specialistId: question.specialistId, isChecked });
+            answers.push({ questionId: question._id, specialistId: question.specialistId, isChecked });
         }
-        if (this.answers.length === QUESTIONS.length) {
+        if (this.answers.length === this.props.questions.length) {
             this.setState({
                 isValid: true
             });
@@ -33,17 +37,15 @@ class Questions extends React.Component {
     };
 
     onSave = () => {
-        console.log(this.answers);
     };
 
     render() {
         const { isValid } = this.state;
-
-        console.log(this.props.questions);
+        const { questions } = this.props;
 
         return (
             <div className="questions__container">
-                <Slider onChange={this.onChange} data={QUESTIONS} />
+                {questions.length && <Slider onChange={this.onChange} data={questions} />}
                 <Button text="Сохранить" onClick={this.onSave} disabled={!isValid} />
             </div>
         );
@@ -51,11 +53,12 @@ class Questions extends React.Component {
 }
 
 const mapStateToProps = ({ questions }) => ({
-    questions: questions.get('questions'),
-    isPending: questions.get('isPending')
+    questions: questions.questions,
+    isPending: questions.isPending
 });
 
 const mapDispatchToProps = dispatch => ({
+    // getQuestions: bindActionCreators(getQuestions, dispatch)
     getQuestions: bindActionCreators(getQuestions, dispatch)
 });
 

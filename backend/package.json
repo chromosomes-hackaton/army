@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "0.3.0",
+  "description": "Backend",
+  "engines": {
+    "node": "10.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "chalk": "^2.4.2",
+    "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
+    "express": "^4.15.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.2.7",
+    "puppeteer": "^1.19.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "license": "MIT"
+}
