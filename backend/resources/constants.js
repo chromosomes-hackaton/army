@@ -3,7 +3,8 @@ module.exports.collectionNames = {
   ARTICLE: 'article',
   SPECIALIST: 'specialist',
   DISEASE: 'disease',
-  QUESTION: 'question'
+  QUESTION: 'question',
+  IMB: 'imb'
 };
 
 module.exports.SPECIALISTS = [

@@ -26,9 +26,9 @@ module.exports.getDiseases = async (req, res) => {
 
 module.exports.getDiseaseById = async (req, res) => {
     const { diseaseId } = req.params;
-    console.log(diseaseId);
     try {
       const [{ articleId }] = await diseaseService.find({ _id: diseaseId });
+      console.log(articleId);
       const data = await articleService.find({ _id: articleId });
       res.status(200);
       res.send([...data]);

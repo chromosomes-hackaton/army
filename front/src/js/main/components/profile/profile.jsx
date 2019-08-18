@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Icon, Input, Button, Checkbox, Avatar, Card, InputNumber } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Avatar, Card, InputNumber, Select } from 'antd';
 import ClassNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -9,9 +9,10 @@ import CustomChart from 'main/components/custom-chart/custom-chart';
 import Questions from 'main/components/questions/questions';
 import Modal from '../../components/modal/modal';
 
-import { Button as NewButton } from '../../../shared/components/index';
+import { Button as NewButton, Spinner } from '../../../shared/components/index';
 import Chart from '../../components/statistics/statistics';
 import { showModal, hideModal } from '../../actions/modal/modal';
+import { getSpecialists, getDiseases } from '../../actions/diseases/diseases';
 
 import CustomButton from '../custom-button/custom-button';
 // import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, CustomizedLabel, Legend, Tooltip } from 'recharts';
@@ -23,16 +24,24 @@ import avatar from './avatar.png';
 import { getRecommendedSpecialists } from '_root/selectors/specialist.selectors';
 
 const docs = ['терапевт', 'офтальмолог', 'дерматовенеролог', 'стоматолог', 'психиатор', 'невролог', 'оториноларинголог'];
+const { Option } = Select;
 
 class Statistics extends React.PureComponent {
     state = {
         userTitles: [],
         hintNode: null,
-        isOpenedHeight: true,
-        isOpenedWeight: true,
+        disease: null,
+
+        isOpenedHeight: false,
+        isOpenedWeight: false,
+        isOpenedUsername: false
     };
     componentDidMount() {
         this.props.fetchUser();
+    }
+
+    componentDidMount() {
+        this.props.getSpecialists();
     }
 
     openWeight = () =>
@@ -54,7 +63,7 @@ class Statistics extends React.PureComponent {
         this.props.onButtonClick(2);
     };
 
-      openQuest = () => {
+    openQuest = () => {
         this.props.onButtonClick(1);
     };
 
@@ -64,6 +73,14 @@ class Statistics extends React.PureComponent {
             .includes(title) ? 2 : 1} 
         />
     );
+    onChangeSelect = Id => {
+        this.props.getDiseases(Id);
+         this.setState({ disease: null });
+    };
+
+    onChangeDisease = item => {
+        this.setState({ disease: item });
+    };
 
     render() {
         const { isOpenedHeight, isOpenedWeight, isOpenedUsername } = this.state;
@@ -179,12 +196,59 @@ class Statistics extends React.PureComponent {
                     <div className="profile__description">
                         {docs.map(this.renderCustomButton)}
                     </div>
+
+                    <h1>Вы прошли специалиста и знаете свой диагноз?</h1>
+                    <div className="specialist-select-container">
+                        <h3>Выберите специалиста из предложенных:</h3>
+                        <div className="specialist-select">
+                            {/* <select name="Specialists" onChange={this.onChangeSelect} id="lang" value=""> */}
+                            <Select defaultValue="" style={{ width: 290 }} onChange={this.onChangeSelect}>
+                                {this.props.specialts.length &&
+                                    this.props.specialts.map((item, index) => (
+                                        <Option value={item._id} id={item._id} key={index}>
+                                            {item.name}
+                                        </Option>
+                                    ))}
+                            </Select>
+                        </div>
+                    </div>
+
+                    {this.props.isPending ? (
+                        <Spinner />
+                    ) : this.props.diseases.length > 0 ? (
+                        <div className="disease-select-container">
+                            <div className="specialist-select-container">
+                                <h3>Выберите диагноз: </h3>
+                                <div className="specialist-select">
+                                    <Select defaultValue="" style={{ width: 500 }} onChange={this.onChangeDisease}>
+                                        {this.props.diseases.length &&
+                                            this.props.diseases.map((item, index) => (
+                                                <Option value={item} id={item._id} key={index}>
+                                                    {item.name}
+                                                </Option>
+                                            ))}
+                                    </Select>
+                                </div>
+                            </div>
+
+                            {this.state.disease !== null ? (
+                                <div>
+                                    <h3>{this.state.disease.name}</h3>
+                                    <h1 className="status">{this.state.disease.category}</h1>
+                                </div>
+                            ) : (
+                                <h4>Не нашли своего диагноза? Не паникуйте, а обратите внимание на статистику и попробуйте пройти других специалистов</h4>
+                            )}
+                        </div>
+                    ) : (
+                        ''
+                    )}
                 </div>
                 {this.props.isActive && this.props.modalProps === 1 && (
                     <React.Fragment>
                         <Modal onClose={this.props.onClose}>
                             <div className="questions">
-                            <Questions />
+                                <Questions />
                             </div>
                         </Modal>
                         <div className="modal-fade" />
@@ -206,6 +270,9 @@ class Statistics extends React.PureComponent {
 const mapStateToProps = (state) => ({
     modalProps: state.modal.modalProps,
     isActive: state.modal.isActive,
+    diseases: state.diseases.diseases,
+    specialts: state.diseases.specialists,
+    isPending: state.diseases.isPending,
     user: getUserInfo(state),
     recommendedSpecialists: getRecommendedSpecialists(state),
 });
@@ -214,6 +281,8 @@ const mapDispatchToProps = dispatch => ({
     onButtonClick: bindActionCreators(showModal, dispatch),
     onClose: bindActionCreators(hideModal, dispatch),
     fetchUser: bindActionCreators(fetchUser, dispatch),
+    getSpecialists: bindActionCreators(getSpecialists, dispatch),
+    getDiseases: bindActionCreators(getDiseases, dispatch),
 });
 
 export default connect(

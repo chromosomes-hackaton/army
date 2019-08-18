@@ -5,8 +5,7 @@ import QuestionsRecord from '../../records/questions/question-record';
 import {
     GET_QUESTIONS_ERROR,
     GET_QUESTIONS_REQUEST,
-    GET_QUESTIONS_SUCCESS,
-    GET_SPECIALISTS_SUCCESS
+    GET_QUESTIONS_SUCCESS
 } from '../../constants/questions';
 
 const initialState = {
@@ -29,10 +28,10 @@ export default function questionReducer(state = initialState, action) {
             return {
                 ...state, isPending: false
             };
-        case GET_SPECIALISTS_SUCCESS:
-            return {
-                ...state, specialists: action.payload.data
-            };
+        // case GET_SPECIALISTS_SUCCESS:
+        //     return {
+        //         ...state, specialists: action.payload.data
+        //     };
         default:
             return state;
     }

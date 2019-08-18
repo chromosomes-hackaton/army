@@ -10,13 +10,28 @@ export async function fetchQuestions() {
         return data;
     });
 }
-export async function fetchSpecialists(Ids) {
+// export async function fetchSpecialists(Ids) {
 
-    return axios.post(`/article/bySpecialistIds`,{
-            specialistIds: Ids
-        }).then((res) => {
+//     return axios.post(`/article/bySpecialistIds`,{
+//             specialistIds: Ids
+//         }).then((res) => {
+//         const data = res.data;
+//         console.log(res, 111111111111);
+//         return data;
+//     });
+// }
+
+export async function fetchSpecialists() {
+    return axios.get(`/specialist`).then((res) => {
         const data = res.data;
         return data;
     });
 }
 
+
+export async function fetchDiseases(Id) {
+    return axios.get(`/disease?specialistId=${Id}`).then((res) => {
+        const data = res.data;
+        return data;
+    });
+}
