@@ -36,8 +36,7 @@ class Questions extends React.Component {
         }
     };
 
-    onSave = () => {
-    };
+    onSave = () => {};
 
     render() {
         const { isValid } = this.state;
@@ -46,7 +45,9 @@ class Questions extends React.Component {
         return (
             <div className="questions__container">
                 {questions.length && <Slider onChange={this.onChange} data={questions} />}
-                <Button text="Сохранить" onClick={this.onSave} disabled={!isValid} />
+                <div className="btn-margin">
+                    <Button text="Сохранить" onClick={this.onSave} disabled={!isValid} />
+                </div>
             </div>
         );
     }

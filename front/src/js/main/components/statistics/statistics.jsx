@@ -129,7 +129,7 @@ const parseToPercentage = diseases => {
     };
 };
 
-export default class Statistics extends React.PureComponent {
+export default class Chart extends React.PureComponent {
     static propTypes = {};
 
     static defaultProps = {};
