@@ -8,7 +8,6 @@ module.exports = (collectionName, db, options = { additionalIdFields: [] }) => {
   if (typeof additionalIdFields === 'array') {
     idFields.push(...additionalIdFields);
   }
-
   const wrap = obj => wrapIdFields(obj, idFields);
 
   if (!database) {
