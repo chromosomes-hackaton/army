@@ -7,6 +7,7 @@ import { Button, Input, Spinner } from 'shared/components';
 import Slider from '../slider/slider';
 // import { QUESTIONS } from '../../constants/questions';
 import { getQuestions, getSpecialists } from '../../actions/questions/question-action';
+import './questions.scss';
 
 class Questions extends React.Component {
     constructor() {
@@ -29,7 +30,12 @@ class Questions extends React.Component {
         if (answer) {
             answer.isChecked = isChecked;
         } else {
-            answers.push({ questionId: question._id, specialistName: question.specialistName, isChecked });
+            answers.push({
+                questionId: question._id,
+                specialistName: question.specialistName,
+                specialistId: question.specialistId,
+                isChecked,
+            });
         }
         if (this.answers.length === this.props.questions.length) {
             this.setState({
@@ -39,34 +45,38 @@ class Questions extends React.Component {
     };
 
     onSave = () => {
-        let Ids = [];
-        this.answers.forEach(item => {
-            if (item.isChecked) {
-                Ids.push(item.specialistName);
+        let specialists = [];
+        console.log(this.props.questions);
+        console.log(this.answers);
+        console.log({ specialists });
+        this.answers.forEach((answer) => {
+            if (answer.isChecked && !specialists.find(obj => obj.specialistName === answer.specialistName)) {
+                specialists.push(answer);
             }
         });
         this.setState({
             isReady: true,
-            specialists: Ids
+            specialists,
         });
     };
 
     render() {
+        console.log({ questions });
         const { isValid, specialists, isReady } = this.state;
         const { questions } = this.props;
 
         return !isReady ? (
             <div className="questions__container">
-                {questions.length && <Slider onChange={this.onChange} data={questions} />}
+                {!!questions.length && <Slider onChange={this.onChange} data={questions} />}
                 <div className="btn-margin">
                     <Button text="Сохранить" onClick={this.onSave} disabled={!isValid} />
                 </div>
             </div>
         ) : (
-            <div>
-                <h3>Рекомендуемые специалисты для посещения: </h3>
-                {specialists.map(item => (
-                    <h4>{item}</h4>
+            <div className="recommended-modal">
+                <h3>Рекомендуем вам посетить следующих специалистов: </h3>
+                {specialists.map((item, index) => (
+                    <h4 key={index}>{`${index + 1}) ${item}`}</h4>
                 ))}
             </div>
         );

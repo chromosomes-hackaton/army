@@ -63,8 +63,6 @@ const WithRoutes = withRouter(Routes);
 
 class Root extends React.PureComponent {
     render() {
-        console.log(this.props.history);
-        console.log(hasToken());
         return (
             <Provider store={store}>
                 <>

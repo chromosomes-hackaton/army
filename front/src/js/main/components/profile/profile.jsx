@@ -17,20 +17,20 @@ import CustomButton from '../custom-button/custom-button';
 // import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, CustomizedLabel, Legend, Tooltip } from 'recharts';
 
 import './profile.scss';
+import { getUserInfo } from '_root/selectors/user.selectors';
+import avatar from './avatar.png';
 
 class Statistics extends React.PureComponent {
-    static propTypes = {};
-
-    static defaultProps = {};
-
     state = {
         userTitles: [],
         hintNode: null,
-
-        isOpenedHeight: false,
-        isOpenedWeight: false,
-        isOpenedUsername: false
+        username: '',
+        isOpenedHeight: true,
+        isOpenedWeight: true,
     };
+    componentDidMount() {
+        this.setState({ username: this.props.user.username });
+    }
 
     openWeight = () =>
         this.setState(({ isOpenedWeight }) => ({
@@ -62,50 +62,14 @@ class Statistics extends React.PureComponent {
             <>
                 <div className="profile__container">
                     <div className="profile__parameters">
-                        <Avatar
-                            shape="square"
-                            size={120}
-                            style={{
-                                width: '180px',
-                                height: '180px',
-                                marginRight: '20px'
-                            }}
-                            icon="user"
-                            className="profile__avatar"
-                        />
+                        <div className="logo">
+                            <img src={avatar} className="logo__img" />
+                        </div>
 
                         <div className="profile__indicators-container">
-                            {isOpenedUsername ? (
-                                <div
-                                    className={ClassNames(
-                                        'profile__indicators-info-container',
-                                        'profile__indicators-info-container--active'
-                                    )}
-                                >
-                                    <Input
-                                        className="profile__input-info"
-                                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        placeholder="Username"
-                                    />
-                                    <Icon
-                                        onClick={this.openUsername}
-                                        type="check"
-                                        style={{
-                                            color: '#89BF5A',
-                                            marginLeft: '3px'
-                                        }}
-                                    />
-                                </div>
-                            ) : (
-                                <div className="profile__indicators-info-container">
-                                    <p className="profile__indicators-info">Andreiiii</p>
-                                    <Icon
-                                        onClick={this.openUsername}
-                                        type="edit"
-                                        style={{ color: 'rgba(0,0,0,.25)' }}
-                                    />
-                                </div>
-                            )}
+                            <div className="profile__indicators-info-container">
+                                <p className="profile__indicators-info">{this.state.username}</p>
+                            </div>
 
                             <div className="profile__indicators-container--main">
                                 {isOpenedHeight ? (
@@ -235,9 +199,10 @@ class Statistics extends React.PureComponent {
     }
 }
 
-const mapStateToProps = ({ modal }) => ({
-    modalProps: modal.modalProps,
-    isActive: modal.isActive
+const mapStateToProps = (state) => ({
+    modalProps: state.modal.modalProps,
+    isActive: state.modal.isActive,
+    user: getUserInfo(state),
 });
 
 const mapDispatchToProps = dispatch => ({

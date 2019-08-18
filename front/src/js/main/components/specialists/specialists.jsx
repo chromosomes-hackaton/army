@@ -39,7 +39,7 @@ class Specialists extends React.Component {
     onSave = () => {
         let Ids = [];
         this.answers.forEach(item => {
-            if (item.isChecked) {
+            if (item.isChecked && !Ids.includes(item.specialistId)) {
                 Ids.push(item.specialistId);
             }
         });
@@ -52,7 +52,7 @@ class Specialists extends React.Component {
 
         return (
             <div className="questions__container">
-                {questions.length && <Slider onChange={this.onChange} data={questions} />}
+                {!!questions.length && <Slider onChange={this.onChange} data={questions} />}
                 <div className="btn-margin">
                     <Button text="Сохранить" onClick={this.onSave} disabled={!isValid} />
                 </div>
