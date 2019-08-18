@@ -16,7 +16,6 @@ export async function fetchSpecialists(Ids) {
             specialistIds: Ids
         }).then((res) => {
         const data = res.data;
-        console.log(res, 111111111111);
         return data;
     });
 }

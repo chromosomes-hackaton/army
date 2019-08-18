@@ -63,7 +63,6 @@ export function getSpecialists(Ids) {
     return async (dispatch) => {
         try {
             const data = await fetchSpecialists(Ids);
-            console.log(data, 111111111);
             dispatch(getSpecialistsSuccess(data));
         } catch (err) {
             dispatch();

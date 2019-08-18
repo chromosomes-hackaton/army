@@ -16,8 +16,8 @@ export default class CustomChart extends React.PureComponent {
             <div className="custom-chart__container">
                 <div className="custom-chart__options-container">
                     {data &&
-                        data.map(item => (
-                            <div className="custom-chart__option">
+                        data.map((item, index) => (
+                            <div className="custom-chart__option" key={index}>
                                 <div className="custom-chart__option-label">
                                     <p>
                                         <Link to={`/hoping/${item.id}`}>{item.name}</Link>

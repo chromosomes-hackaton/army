@@ -2,6 +2,7 @@ import {
   SET_IS_CHECKING,
   SIGN_IN,
   LOG_OUT,
+  FETCH_USER,
 } from '../constants/user.constants';
 
 const initialState = {
@@ -23,6 +24,12 @@ export default (state = initialState, action) => {
         ...state,
         ...action.payload,
         isLoggedIn: true,
+      });
+    
+    case FETCH_USER:
+      return ({
+        ...state,
+        ...action.payload,
       });
 
     case LOG_OUT:

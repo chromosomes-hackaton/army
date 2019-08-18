@@ -18,18 +18,21 @@ import CustomButton from '../custom-button/custom-button';
 
 import './profile.scss';
 import { getUserInfo } from '_root/selectors/user.selectors';
+import { fetchUser } from '_root/actions/user.actions';
 import avatar from './avatar.png';
+import { getRecommendedSpecialists } from '_root/selectors/specialist.selectors';
+
+const docs = ['терапевт', 'офтальмолог', 'дерматовенеролог', 'стоматолог', 'психиатор', 'невролог', 'оториноларинголог'];
 
 class Statistics extends React.PureComponent {
     state = {
         userTitles: [],
         hintNode: null,
-        username: '',
         isOpenedHeight: true,
         isOpenedWeight: true,
     };
     componentDidMount() {
-        this.setState({ username: this.props.user.username });
+        this.props.fetchUser();
     }
 
     openWeight = () =>
@@ -55,6 +58,13 @@ class Statistics extends React.PureComponent {
         this.props.onButtonClick(1);
     };
 
+    renderCustomButton = (title, index) => (
+        <CustomButton key={index} title={title} state={this.props.recommendedSpecialists
+            .map(item => item.specialistName)
+            .includes(title) ? 2 : 1} 
+        />
+    );
+
     render() {
         const { isOpenedHeight, isOpenedWeight, isOpenedUsername } = this.state;
 
@@ -68,7 +78,7 @@ class Statistics extends React.PureComponent {
 
                         <div className="profile__indicators-container">
                             <div className="profile__indicators-info-container">
-                                <p className="profile__indicators-info">{this.state.username}</p>
+                                <p className="profile__indicators-info">{!!this.props.user && this.props.user.username}</p>
                             </div>
 
                             <div className="profile__indicators-container--main">
@@ -167,13 +177,7 @@ class Statistics extends React.PureComponent {
                     </div>
 
                     <div className="profile__description">
-                        <CustomButton title="Терапевт" state={1} />
-                        <CustomButton title="Офтальмолог" state={2} />
-                        <CustomButton title="Дерматовенеролог" state={3} />
-                        <CustomButton title="Стоматолог" state={1} />
-                        <CustomButton title="Психиатр" state={2} />
-                        <CustomButton title="Невролог" state={3} />
-                        <CustomButton title="Оториноларинголог" state={1} />
+                        {docs.map(this.renderCustomButton)}
                     </div>
                 </div>
                 {this.props.isActive && this.props.modalProps === 1 && (
@@ -203,11 +207,13 @@ const mapStateToProps = (state) => ({
     modalProps: state.modal.modalProps,
     isActive: state.modal.isActive,
     user: getUserInfo(state),
+    recommendedSpecialists: getRecommendedSpecialists(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     onButtonClick: bindActionCreators(showModal, dispatch),
-    onClose: bindActionCreators(hideModal, dispatch)
+    onClose: bindActionCreators(hideModal, dispatch),
+    fetchUser: bindActionCreators(fetchUser, dispatch),
 });
 
 export default connect(

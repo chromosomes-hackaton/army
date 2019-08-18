@@ -43,7 +43,6 @@ class Specialists extends React.Component {
                 Ids.push(item.specialistId);
             }
         });
-        console.log(Ids);
     };
 
     render() {

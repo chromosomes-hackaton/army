@@ -8,6 +8,8 @@ import Slider from '../slider/slider';
 // import { QUESTIONS } from '../../constants/questions';
 import { getQuestions, getSpecialists } from '../../actions/questions/question-action';
 import './questions.scss';
+import { addRecommendedSpecialists } from '_root/actions/specialist.actions';
+import { getRecommendedSpecialists } from '_root/selectors/specialist.selectors';
 
 class Questions extends React.Component {
     constructor() {
@@ -46,22 +48,18 @@ class Questions extends React.Component {
 
     onSave = () => {
         let specialists = [];
-        console.log(this.props.questions);
-        console.log(this.answers);
-        console.log({ specialists });
         this.answers.forEach((answer) => {
             if (answer.isChecked && !specialists.find(obj => obj.specialistName === answer.specialistName)) {
                 specialists.push(answer);
             }
         });
+        this.props.addRecommendedSpecialists(specialists);
         this.setState({
             isReady: true,
-            specialists,
         });
     };
 
     render() {
-        console.log({ questions });
         const { isValid, specialists, isReady } = this.state;
         const { questions } = this.props;
 
@@ -75,24 +73,24 @@ class Questions extends React.Component {
         ) : (
             <div className="recommended-modal">
                 <h3>Рекомендуем вам посетить следующих специалистов: </h3>
-                {specialists.map((item, index) => (
-                    <h4 key={index}>{`${index + 1}) ${item}`}</h4>
+                {this.props.recommendedSpecialists.map((item, index) => (
+                    <h4 key={index}>{`${index + 1}) ${item.specialistName}`}</h4>
                 ))}
             </div>
         );
     }
 }
 
-const mapStateToProps = ({ questions }) => ({
-    questions: questions.questions,
-    // specialists: questions.specialists,
-    isPending: questions.isPending
+const mapStateToProps = (state) => ({
+    questions: state.questions.questions,
+    isPending: state.questions.isPending,
+    recommendedSpecialists: getRecommendedSpecialists(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-    // getQuestions: bindActionCreators(getQuestions, dispatch)
     getQuestions: bindActionCreators(getQuestions, dispatch),
-    getSpecialists: bindActionCreators(getSpecialists, dispatch)
+    getSpecialists: bindActionCreators(getSpecialists, dispatch),
+    addRecommendedSpecialists: bindActionCreators(addRecommendedSpecialists, dispatch),
 });
 
 export default connect(

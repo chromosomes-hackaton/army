@@ -30,7 +30,8 @@ export default class CustomButton extends React.PureComponent {
                     <Icon
                         type="warning"
                         style={{
-                            color
+                            color,
+                            border: `1 px solid ${color}`,
                         }}
                     />
                 </div>
